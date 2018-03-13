@@ -33,7 +33,7 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `sortiaria`.`user`
+-- Table `sortiaria`.`utilisateur`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `sortiaria`.`utilisateur` ;
 
@@ -49,7 +49,7 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `gazetteer`.`authorship`
+-- Table `sortiaria`.`auteur`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `sortiaria`.`auteur` ;
 
@@ -94,10 +94,10 @@ CREATE TABLE IF NOT EXISTS `sortiaria`.`commentaire` (
 ENGINE = InnoDB;
 
 SET SQL_MODE = '';
-GRANT USAGE ON *.* TO gazetteer_user;
- DROP USER gazetteer_user;
+GRANT USAGE ON *.* TO sortiaria_utilisateur;
+ DROP utilisateur sortiaria_utilisateur;
 SET SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
-CREATE USER 'gazetteer_user' IDENTIFIED BY 'password';
+CREATE utilisateur 'sortiaria_utilisateur' IDENTIFIED BY 'password';
 
 GRANT ALL ON `sortiaria`.* TO 'sortiaria_utilisateur';
 GRANT SELECT ON TABLE `sortiaria`.* TO 'sortiaria_utilisateur';
