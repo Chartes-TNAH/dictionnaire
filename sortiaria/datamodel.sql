@@ -10,7 +10,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 -- Schema sortiaria
 -- -----------------------------------------------------
-DROP SCHEMA IF EXISTS `sortiara` ;
+DROP SCHEMA IF EXISTS `sortiaria` ;
 
 -- -----------------------------------------------------
 -- Schema sortiaria
