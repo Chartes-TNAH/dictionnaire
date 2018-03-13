@@ -1,7 +1,6 @@
-la pendule
-de l'entrée
-s'est arrêtée sur midi
-à ce moment très précis
-où tu m'as dit je vais partir
-et puis
-tu es partie
+from warnings import warn
+
+SECRET_KEY = "JE SUIS UN SECRET !"
+
+if SECRET_KEY == "JE SUIS UN SECRET !":
+    warn("Le secret par défaut n'a pas été changé, vous devriez le faire", Warning)
