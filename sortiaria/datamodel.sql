@@ -24,7 +24,7 @@ USE `sortiaria` ;
 DROP TABLE IF EXISTS `sortiaria`.`mot` ;
 
 CREATE TABLE IF NOT EXISTS `sortiaria`.`mot` (
-  `mot_id` INT NOT NULL AUTO_INCREMENT COMMENT '	',
+  `mot_id` INT NOT NULL AUTO_INCREMENT,
   `mot_terme` TINYTEXT NOT NULL,
   `mot_def` TEXT NOT NULL,
   `mot_commentaire` TEXT NOT NULL,
