@@ -1,0 +1,15 @@
+resultats/*.txt
+env/
+.DS_Store
+.DS_Store
+.pyc
+*.pyc
+.~lock*
+__pycache__
+.idea
+pyhum
+pydf
+styles
+*.bak
+pages.csv
+*.sqlite
