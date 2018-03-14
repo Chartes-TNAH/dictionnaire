@@ -26,3 +26,19 @@ login = LoginManager(app)
 
 
 from .routes import routes
+from .routes import api
+
+
+def config_app(config_name="test"):
+    """ Create the application """
+    app.config.from_object(CONFIG[config_name])
+
+    # Set up extensions
+    db.init_app(app)
+    # assets_env = Environment(app)
+    login.init_app(app)
+
+    # Register Jinja template functions
+
+    return app
+
