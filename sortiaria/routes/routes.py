@@ -2,7 +2,7 @@ from flask import render_template, request, flash, redirect
 
 
 from .app import app, login
-from .modeles.donnees import Place
+from .modeles.donnees import Mot
 from .modeles.utilisateurs import User
 from .constantes import MOTS_PAR_PAGE
 from flask_login import login_user, current_user, logout_user
@@ -14,17 +14,17 @@ def accueil():
     """
     # On a bien sûr aussi modifié le template pour refléter le changement
     lieux = Place.query.order_by(Place.place_id.desc()).limit(5).all()
-    return render_template("pages/accueil.html", nom="Gazetteer", lieux=lieux)
+    return render_template("pages/accueil.html", nom="Sortiaria", mots=mots)
 
 
-@app.route("/place/<int:place_id>")
-def lieu(place_id):
-    """ Route permettant l'affichage des données d'un lieu
+@app.route("/mot/<int:mot_id>")
+def mot(mot_id):
+    """ Route permettant l'affichage des données d'un mot
     :param place_id: Identifiant numérique du lieu
     """
     # On a bien sûr aussi modifié le template pour refléter le changement
-    unique_lieu = Place.query.get(place_id)
-    return render_template("pages/place.html", nom="Gazetteer", lieu=unique_lieu)
+    unique_mot = Mot.query.get(mot_id)
+    return render_template("pages/mot.html", nom="Sortiaria", mot=unique_mot)
 
 
 @app.route("/recherche")
@@ -48,9 +48,9 @@ def recherche():
     # On fait de même pour le titre de la page
     titre = "Recherche"
     if motclef:
-        resultats = Place.query.filter(
-            Place.place_nom.like("%{}%".format(motclef))
-        ).paginate(page=page, per_page=LIEUX_PAR_PAGE)
+        resultats = Mot.query.filter(
+            Mot.mot_terme.like("%{}%".format(motclef))
+        ).paginate(page=page, per_page=MOTS_PAR_PAGE)
         titre = "Résultat pour la recherche `" + motclef + "`"
 
     return render_template(
