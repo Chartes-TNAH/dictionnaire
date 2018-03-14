@@ -1,20 +1,20 @@
 {% extends "conteneur.html" %}
 
 {% block titre %}
-    {%if terme %}| Terme : {{terme.mot_terme}} {% endif %}
+    {%if mot %}| Terme : {{mot.mot_terme}} {% endif %}
 {% endblock %}
 
 {% block corps %}
-    {% if terme %}
-        <h1>{{terme.mot_terme}}</h1>
+    {% if mot %}
+        <h1>{{mot.mot_terme}}</h1>
         <dl>
-            <dt>Définition</dt><dd>{{terme.mot_def}}</dd>
+            <dt>Définition</dt><dd>{{mot.mot_def}}</dd>
         </dl>
     {% else %}
         <p>La base de données est en cours de constitution</p>
     {% endif %}
     <p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
-    {% if current_user.is_authenticated %}
+    <!--{% if current_user.is_authenticated %}
         <a class="nav-link" href="{{url_for('modif_lieu', place_id=lieu.place_id)}}">Editer</a>
-        {%endif %}
+        {%endif %}-->
 {% endblock %}
