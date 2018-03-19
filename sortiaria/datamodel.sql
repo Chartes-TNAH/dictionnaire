@@ -10,7 +10,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 -- Schema sortiaria
 -- -----------------------------------------------------
-DROP SCHEMA IF EXISTS `sortiara` ;
+DROP SCHEMA IF EXISTS `sortiaria` ;
 
 -- -----------------------------------------------------
 -- Schema sortiaria
@@ -24,7 +24,7 @@ USE `sortiaria` ;
 DROP TABLE IF EXISTS `sortiaria`.`mot` ;
 
 CREATE TABLE IF NOT EXISTS `sortiaria`.`mot` (
-  `mot_id` INT NOT NULL AUTO_INCREMENT COMMENT '	',
+  `mot_id` INT NOT NULL AUTO_INCREMENT,
   `mot_terme` TINYTEXT NOT NULL,
   `mot_def` TEXT NOT NULL,
   `mot_commentaire` TEXT NOT NULL,
@@ -33,7 +33,7 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `sortiaria`.`user`
+-- Table `sortiaria`.`utilisateur`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `sortiaria`.`user` ;
 
@@ -49,7 +49,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+<<<<<<< HEAD
 -- Table `sortiara`.`auteur`
+=======
+-- Table `sortiaria`.`auteur`
+>>>>>>> ce0cc4bbb2e10291b83c08b20f95d861a6c235c8
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `sortiaria`.`auteur` ;
 
@@ -94,10 +98,17 @@ CREATE TABLE IF NOT EXISTS `sortiaria`.`commentaire` (
 ENGINE = InnoDB;
 
 SET SQL_MODE = '';
+<<<<<<< HEAD
 GRANT USAGE ON *.* TO sortiaria_user;
  DROP USER sortiaria_user;
 SET SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 CREATE USER 'sortiara_user' IDENTIFIED BY 'password';
+=======
+GRANT USAGE ON *.* TO sortiaria_utilisateur;
+ DROP utilisateur sortiaria_utilisateur;
+SET SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+CREATE utilisateur 'sortiaria_utilisateur' IDENTIFIED BY 'password';
+>>>>>>> ce0cc4bbb2e10291b83c08b20f95d861a6c235c8
 
 GRANT ALL ON `sortiaria`.* TO 'sortiaria_user';
 GRANT SELECT ON TABLE `sortiaria`.* TO 'sortiaria_user';
