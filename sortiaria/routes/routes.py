@@ -13,7 +13,7 @@ def accueil():
     """ Route permettant l'affichage d'une page accueil
     """
     # On a bien sûr aussi modifié le template pour refléter le changement
-    mots = Mot.query.order_by(Mot.mot_id.desc()).limit(5).all()
+    mots = Mot.query.order_by(Mot.mot_id.desc()).all()
     return render_template("pages/accueil.html", nom="Sortiaria", mots=mots)
 
 

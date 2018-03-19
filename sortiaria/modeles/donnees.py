@@ -27,7 +27,7 @@ class Mot(db.Model):
     mot_terme = db.Column(db.Text)
     mot_def = db.Column(db.Text)
     mot_commentaire = db.Column(db.Text)
-    authorships = db.relationship("authorship", back_populates="mot")
+    authorships = db.relationship("Authorship", back_populates="mot")
 
     def to_jsonapi_dict(self):
         """ It ressembles a little JSON API format but it is not completely compatible
