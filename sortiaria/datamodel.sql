@@ -35,40 +35,40 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `sortiaria`.`user`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `sortiaria`.`utilisateur` ;
+DROP TABLE IF EXISTS `sortiaria`.`user` ;
 
-CREATE TABLE IF NOT EXISTS `sortiaria`.`utilisateur` (
-  `utilisateur_id` INT NOT NULL AUTO_INCREMENT,
-  `utilisateur_nom` TINYTEXT NOT NULL,
-  `utilisateur_login` VARCHAR(45) NOT NULL,
-  `utilisateur_email` TINYTEXT NOT NULL,
-  `utilisateur_password` VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`utilisateur_id`),
-  UNIQUE INDEX `utilisateur_login_UNIQUE` (`utilisateur_login` ASC))
+CREATE TABLE IF NOT EXISTS `sortiaria`.`user` (
+  `user_id` INT NOT NULL AUTO_INCREMENT,
+  `user_nom` TINYTEXT NOT NULL,
+  `user_login` VARCHAR(45) NOT NULL,
+  `user_email` TINYTEXT NOT NULL,
+  `user_password` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`user_id`),
+  UNIQUE INDEX `user_login_UNIQUE` (`user_login` ASC))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `gazetteer`.`authorship`
+-- Table `sortiara`.`auteur`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `sortiaria`.`auteur` ;
 
 CREATE TABLE IF NOT EXISTS `sortiaria`.`auteur` (
   `auteur_id` INT NOT NULL AUTO_INCREMENT,
-  `auteur_utilisateur_id` INT NOT NULL,
+  `auteur_user_id` INT NOT NULL,
   `auteur_mot_id` INT NOT NULL,
   `auteur_date` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`auteur_id`),
   INDEX `fk_auteur_1_idx` (`auteur_mot_id` ASC),
-  INDEX `fk_auteur_2_idx` (`auteur_utilisateur_id` ASC),
+  INDEX `fk_auteur_2_idx` (`auteur_user_id` ASC),
   CONSTRAINT `fk_auteur_1`
     FOREIGN KEY (`auteur_mot_id`)
     REFERENCES `sortiaria`.`mot` (`mot_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_auteur_2`
-    FOREIGN KEY (`auteur_utilisateur_id`)
-    REFERENCES `sortiaria`.`utilisateur` (`utilisateur_id`)
+    FOREIGN KEY (`auteur_user_id`)
+    REFERENCES `sortiaria`.`user` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -94,16 +94,16 @@ CREATE TABLE IF NOT EXISTS `sortiaria`.`commentaire` (
 ENGINE = InnoDB;
 
 SET SQL_MODE = '';
-GRANT USAGE ON *.* TO gazetteer_user;
- DROP USER gazetteer_user;
+GRANT USAGE ON *.* TO sortiaria_user;
+ DROP USER sortiaria_user;
 SET SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
-CREATE USER 'gazetteer_user' IDENTIFIED BY 'password';
+CREATE USER 'sortiara_user' IDENTIFIED BY 'password';
 
-GRANT ALL ON `sortiaria`.* TO 'sortiaria_utilisateur';
-GRANT SELECT ON TABLE `sortiaria`.* TO 'sortiaria_utilisateur';
-GRANT SELECT, INSERT, TRIGGER ON TABLE `sortiaria`.* TO 'sortiaria_utilisateur';
-GRANT SELECT, INSERT, TRIGGER, UPDATE, DELETE ON TABLE `sortiaria`.* TO 'sortiaria_utilisateur';
-GRANT EXECUTE ON ROUTINE `sortiaria`.* TO 'sortiaria_utilisateur';
+GRANT ALL ON `sortiaria`.* TO 'sortiaria_user';
+GRANT SELECT ON TABLE `sortiaria`.* TO 'sortiaria_user';
+GRANT SELECT, INSERT, TRIGGER ON TABLE `sortiaria`.* TO 'sortiaria_user';
+GRANT SELECT, INSERT, TRIGGER, UPDATE, DELETE ON TABLE `sortiaria`.* TO 'sortiaria_user';
+GRANT EXECUTE ON ROUTINE `sortiaria`.* TO 'sortiaria_user';
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
@@ -120,10 +120,10 @@ COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `sortiaria`.`utilisateur`
+-- Data for table `sortiaria`.`user`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `sortiaria`;
-INSERT INTO `sortiaria`.`utilisateur` (`utilisateur_id`, `utilisateur_nom`, `utilisateur_login`, `utilisateur_email`, `utilisateur_password`) VALUES (1, 'Administrator', 'admin', 'admin@supersite.com', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8');
+INSERT INTO `sortiaria`.`user` (`user_id`, `user_nom`, `user_login`, `user_email`, `user_password`) VALUES (1, 'Administrator', 'admin', 'admin@supersite.com', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8');
 
 COMMIT;
