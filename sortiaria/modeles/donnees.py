@@ -44,7 +44,7 @@ class Mot(db.Model):
             },
             "links": {
                 "self": url_for("mot", mot_id=self.mot_id, _external=True),
-                "json": url_for("api_mots_single", mot_id=self.mot_id, _external=True)
+                "json": url_for("api_mot_single", mot_id=self.mot_id, _external=True)
             },
             "relationships": {
                  "editions": [
@@ -143,7 +143,7 @@ class Commentaire(db.Model):
             },
             "links": {
                 "self": url_for("mot", commentaire_id=self.commentaire_id, _external=True),
-                "json": url_for("api_commentaires_single", commentaire_id=self.commentaire_id, _external=True)
+                "json": url_for("api_commentaire_single", commentaire_id=self.commentaire_id, _external=True)
             },
             "relationships": {
                  "editions": [
