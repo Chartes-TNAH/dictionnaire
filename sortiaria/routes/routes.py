@@ -109,7 +109,7 @@ login.login_view = 'connexion'
 
 @app.route("/deconnexion", methods=["POST", "GET"])
 def deconnexion():
-    if current_user.is_authenticated is True:
-        logout_user()
-    flash("Vous êtes déconnecté-e", "info")
-return redirect("/")
+	if current_user.is_authenticated is True:
+		logout_user()
+		flash("Vous êtes déconnecté-e", "info")
+	return redirect("/")
