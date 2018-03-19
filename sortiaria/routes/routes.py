@@ -68,10 +68,10 @@ def inscription():
     # Si on est en POST, cela veut dire que le formulaire a été envoyé
     if request.method == "POST":
         statut, donnees = User.creer(
-            login=request.form.get("login", None),
-            email=request.form.get("email", None),
-            nom=request.form.get("nom", None),
-            motdepasse=request.form.get("motdepasse", None)
+            login=request.form.post("login", None),
+            email=request.form.post("email", None),
+            nom=request.form.post("nom", None),
+            motdepasse=request.form.post("motdepasse", None)
         )
         if statut is True:
             flash("Enregistrement effectué. Identifiez-vous maintenant", "success")
@@ -93,8 +93,8 @@ def connexion():
     # Si on est en POST, cela veut dire que le formulaire a été envoyé
     if request.method == "POST":
         utilisateur = User.identification(
-            login=request.form.get("login", None),
-            motdepasse=request.form.get("motdepasse", None)
+            login=request.form.post("login", None),
+            motdepasse=request.form.post("motdepasse", None)
         )
         if utilisateur:
             flash("Connexion effectuée", "success")
@@ -109,7 +109,7 @@ login.login_view = 'connexion'
 
 @app.route("/deconnexion", methods=["POST", "GET"])
 def deconnexion():
-    if current_user.is_authenticated is True:
-        logout_user()
-    flash("Vous êtes déconnecté-e", "info")
-return redirect("/")
+	if current_user.is_authenticated is True:
+		logout_user()
+		flash("Vous êtes déconnecté-e", "info")
+	return redirect("/")
