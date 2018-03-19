@@ -7,11 +7,11 @@ from .. app import db
 class Authorship(db.Model):
     __tablename__ = "authorship"
     authorship_id = db.Column(db.Integer, nullable=True, autoincrement=True, primary_key=True)
-    authorship_place_id = db.Column(db.Integer, db.ForeignKey('place.place_id'))
+    authorship_mot_id = db.Column(db.Integer, db.ForeignKey('mot.mot_id'))
     authorship_user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
     authorship_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     user = db.relationship("User", back_populates="authorships")
-    place = db.relationship("Mot", back_populates="authorships")
+    mot = db.relationship("Mot", back_populates="authorships")
 
     def author_to_json(self):
         return {
@@ -40,7 +40,6 @@ class Mot(db.Model):
                 "terme": self.mot_terme,
                 "definition": self.mot_def,
                 "commentaire": self.commentaire,
-                "category": self.place_type
             },
             "links": {
                 "self": url_for("mot", mot_id=self.mot_id, _external=True),
