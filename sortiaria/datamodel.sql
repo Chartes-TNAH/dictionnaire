@@ -50,28 +50,28 @@ ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 <<<<<<< HEAD
--- Table `sortiara`.`auteur`
+-- Table `sortiara`.`authorship`
 =======
--- Table `sortiaria`.`auteur`
+-- Table `sortiaria`.`authorship`
 >>>>>>> ce0cc4bbb2e10291b83c08b20f95d861a6c235c8
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `sortiaria`.`auteur` ;
+DROP TABLE IF EXISTS `sortiaria`.`authorship` ;
 
-CREATE TABLE IF NOT EXISTS `sortiaria`.`auteur` (
-  `auteur_id` INT NOT NULL AUTO_INCREMENT,
-  `auteur_user_id` INT NOT NULL,
-  `auteur_mot_id` INT NOT NULL,
-  `auteur_date` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`auteur_id`),
-  INDEX `fk_auteur_1_idx` (`auteur_mot_id` ASC),
-  INDEX `fk_auteur_2_idx` (`auteur_user_id` ASC),
-  CONSTRAINT `fk_auteur_1`
-    FOREIGN KEY (`auteur_mot_id`)
+CREATE TABLE IF NOT EXISTS `sortiaria`.`authorship` (
+  `authorship_id` INT NOT NULL AUTO_INCREMENT,
+  `authorship_user_id` INT NOT NULL,
+  `authorship_mot_id` INT NOT NULL,
+  `authorship_date` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`authorship_id`),
+  INDEX `fk_authorship_1_idx` (`authorship_mot_id` ASC),
+  INDEX `fk_authorship_2_idx` (`authorship_user_id` ASC),
+  CONSTRAINT `fk_authorship_1`
+    FOREIGN KEY (`authorship_mot_id`)
     REFERENCES `sortiaria`.`mot` (`mot_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_auteur_2`
-    FOREIGN KEY (`auteur_user_id`)
+  CONSTRAINT `fk_authorship_2`
+    FOREIGN KEY (`authorship_user_id`)
     REFERENCES `sortiaria`.`user` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
