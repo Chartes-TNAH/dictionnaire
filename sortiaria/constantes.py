@@ -1,6 +1,6 @@
 from warnings import warn
 
-MOTS_PAR_PAGE = 2
+MOTS_PAR_PAGE = 15
 SECRET_KEY = "JE SUIS UN SECRET !"
 API_ROUTE = "/api"
 
