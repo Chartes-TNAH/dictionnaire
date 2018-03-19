@@ -1,10 +1,10 @@
 from flask import render_template, request, flash, redirect
 
 
-from .app import app, login
-from .modeles.donnees import Mot
-from .modeles.utilisateurs import User
-from .constantes import MOTS_PAR_PAGE
+from ..app import app, login
+from ..modeles.donnees import Mot
+from ..modeles.utilisateurs import User
+from ..constantes import MOTS_PAR_PAGE
 from flask_login import login_user, current_user, logout_user
 
 
@@ -20,7 +20,7 @@ def accueil():
 @app.route("/mot/<int:mot_id>")
 def mot(mot_id):
     """ Route permettant l'affichage des données d'un mot
-    :param place_id: Identifiant numérique du lieu
+    :param mot_id: Identifiant numérique du mot
     """
     # On a bien sûr aussi modifié le template pour refléter le changement
     unique_mot = Mot.query.get(mot_id)
