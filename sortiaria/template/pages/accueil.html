@@ -4,11 +4,11 @@
 {%endblock%}
 {% block corps %}
 <h1>Bienvenue !</h1>
-    {% if lieux %}
-    <p>{{lieux|length}} derniers lieux enregistrés :</p>
+    {% if mot %}
+    <p>{{mot|length}} derniers lieux enregistrés :</p>
         <ul>
-            {% for lieu in lieux %}
-                <li><a href="{{url_for('lieu', place_id=lieu.place_id)}}">{{lieu.place_nom}}</a></li>
+            {% for mot_terme in mot %}
+                <li><a href="{{url_for('mot', mot_terme=mot.mot_id)}}">{{mot.mot_terme}}</a></li>
             {% endfor %}
         </ul>
     {% else %}

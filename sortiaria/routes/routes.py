@@ -1,10 +1,10 @@
 from flask import render_template, request, flash, redirect
 
 
-from .app import app, login
-from .modeles.donnees import Mot
-from .modeles.utilisateurs import User
-from .constantes import MOTS_PAR_PAGE
+from ..app import app, login
+from ..modeles.donnees import Mot
+from ..modeles.utilisateurs import User
+from ..constantes import MOTS_PAR_PAGE
 from flask_login import login_user, current_user, logout_user
 
 
@@ -20,7 +20,7 @@ def accueil():
 @app.route("/mot/<int:mot_id>")
 def mot(mot_id):
     """ Route permettant l'affichage des données d'un mot
-    :param place_id: Identifiant numérique du lieu
+    :param mot_id: Identifiant numérique du mot
     """
     # On a bien sûr aussi modifié le template pour refléter le changement
     unique_mot = Mot.query.get(mot_id)
@@ -60,6 +60,25 @@ def recherche():
         keyword=motclef
     )
 
+@app.route("/browse")
+def browse():
+    """ Route permettant la recherche plein-texte
+    """
+    # On préfèrera l'utilisation de .get() ici
+    #   qui nous permet d'éviter un if long (if "clef" in dictionnaire and dictonnaire["clef"])
+    page = request.args.get("page", 1)
+
+    if isinstance(page, str) and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+
+    resultats = Place.query.paginate(page=page, per_page=MOTS_PAR_PAGE)
+
+    return render_template(
+        "pages/browse.html",
+        resultats=resultats
+    )
 
 @app.route("/register", methods=["GET", "POST"])
 def inscription():
@@ -68,10 +87,10 @@ def inscription():
     # Si on est en POST, cela veut dire que le formulaire a été envoyé
     if request.method == "POST":
         statut, donnees = User.creer(
-            login=request.form.get("login", None),
-            email=request.form.get("email", None),
-            nom=request.form.get("nom", None),
-            motdepasse=request.form.get("motdepasse", None)
+            login=request.form.post("login", None),
+            email=request.form.post("email", None),
+            nom=request.form.post("nom", None),
+            motdepasse=request.form.post("motdepasse", None)
         )
         if statut is True:
             flash("Enregistrement effectué. Identifiez-vous maintenant", "success")
@@ -93,8 +112,8 @@ def connexion():
     # Si on est en POST, cela veut dire que le formulaire a été envoyé
     if request.method == "POST":
         utilisateur = User.identification(
-            login=request.form.get("login", None),
-            motdepasse=request.form.get("motdepasse", None)
+            login=request.form.post("login", None),
+            motdepasse=request.form.post("motdepasse", None)
         )
         if utilisateur:
             flash("Connexion effectuée", "success")
@@ -109,7 +128,7 @@ login.login_view = 'connexion'
 
 @app.route("/deconnexion", methods=["POST", "GET"])
 def deconnexion():
-    if current_user.is_authenticated is True:
-        logout_user()
-    flash("Vous êtes déconnecté-e", "info")
-return redirect("/")
+	if current_user.is_authenticated is True:
+		logout_user()
+		flash("Vous êtes déconnecté-e", "info")
+	return redirect("/")
