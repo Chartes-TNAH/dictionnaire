@@ -14,7 +14,11 @@
         <p>La base de données est en cours de constitution</p>
     {% endif %}
     <p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
-    <!--{% if current_user.is_authenticated %}
-        <a class="nav-link" href="{{url_for('modif_lieu', place_id=lieu.place_id)}}">Editer</a>
-        {%endif %}-->
+    {% if current_user.is_authenticated %}
+        <a class="nav-link" href="{{url_for('modif_mot', mot_id=mot.mot_id)}}">Editer</a>
+        {%endif %}
+    <p><a href="{{url_for('export')}}">Télécharger le fichier en TEI</a></p>
+    <!-- le bouton d'export reste à créer -->
+    <p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
 {% endblock %}
+
