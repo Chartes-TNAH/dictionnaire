@@ -52,10 +52,10 @@ class Mot(db.Model):
                      for author in self.authorships
                  ]
             }
-            
+        }    
     @staticmethod
-    # ce qui suit sert à ajouter un mot (par les utilisateurs)
     def creer_mot(terme, definition):
+        # ce qui suit sert à ajouter un mot (par les utilisateurs)
         erreurs = []
         if not terme:
             erreurs.append("Le terme est obligatoire")
@@ -151,6 +151,7 @@ class Commentaire(db.Model):
                      for author in self.authorships
                  ]
             }
+        }    
      
     @staticmethod
     def ajout_commentaire(id, terme, definition):
