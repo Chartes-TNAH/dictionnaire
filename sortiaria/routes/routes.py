@@ -60,6 +60,25 @@ def recherche():
         keyword=motclef
     )
 
+@app.route("/browse")
+def browse():
+    """ Route permettant la recherche plein-texte
+    """
+    # On préfèrera l'utilisation de .get() ici
+    #   qui nous permet d'éviter un if long (if "clef" in dictionnaire and dictonnaire["clef"])
+    page = request.args.get("page", 1)
+
+    if isinstance(page, str) and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+
+    resultats = Place.query.paginate(page=page, per_page=MOTS_PAR_PAGE)
+
+    return render_template(
+        "pages/browse.html",
+        resultats=resultats
+    )
 
 @app.route("/register", methods=["GET", "POST"])
 def inscription():
