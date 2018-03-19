@@ -50,7 +50,7 @@ ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 <<<<<<< HEAD
--- Table `sortiara`.`authorship`
+-- Table `sortiaria`.`authorship`
 =======
 -- Table `sortiaria`.`authorship`
 >>>>>>> ce0cc4bbb2e10291b83c08b20f95d861a6c235c8
@@ -62,11 +62,13 @@ CREATE TABLE IF NOT EXISTS `sortiaria`.`authorship` (
   `authorship_user_id` INT NOT NULL,
   `authorship_mot_id` INT NOT NULL,
   `authorship_date` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  `commentaire_id` INT NOT NULL AUTO_INCREMENT,
+
   PRIMARY KEY (`authorship_id`),
   INDEX `fk_authorship_1_idx` (`authorship_mot_id` ASC),
-  INDEX `fk_authorship_2_idx` (`authorship_user_id` ASC),
   CONSTRAINT `fk_authorship_1`
     FOREIGN KEY (`authorship_mot_id`)
+    FOREIGN KEY (`commentaire_id`)
     REFERENCES `sortiaria`.`mot` (`mot_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
@@ -102,7 +104,7 @@ SET SQL_MODE = '';
 GRANT USAGE ON *.* TO sortiaria_user;
  DROP USER sortiaria_user;
 SET SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
-CREATE USER 'sortiara_user' IDENTIFIED BY 'password';
+CREATE USER 'sortiaria_user' IDENTIFIED BY 'password';
 =======
 GRANT USAGE ON *.* TO sortiaria_utilisateur;
  DROP utilisateur sortiaria_utilisateur;
