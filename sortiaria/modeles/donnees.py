@@ -9,9 +9,11 @@ class Authorship(db.Model):
     authorship_id = db.Column(db.Integer, nullable=True, autoincrement=True, primary_key=True)
     authorship_mot_id = db.Column(db.Integer, db.ForeignKey('mot.mot_id'))
     authorship_user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
+    authorship_commentaire_id = db.Column(db.Integer, db.ForeignKey('commentaire.commentaire_id'))
     authorship_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     user = db.relationship("User", back_populates="authorships")
     mot = db.relationship("Mot", back_populates="authorships")
+    commentaire = db.relationship("Commentaire", back_populates="authorships")
 
     def author_to_json(self):
         return {
@@ -28,6 +30,7 @@ class Mot(db.Model):
     mot_def = db.Column(db.Text)
     mot_commentaire = db.Column(db.Text)
     authorships = db.relationship("Authorship", back_populates="mot")
+    commentaire = db.relationship("Commentaire", back_populates="mot")
 
     def to_jsonapi_dict(self):
         """ It ressembles a little JSON API format but it is not completely compatible
@@ -125,6 +128,7 @@ class Commentaire(db.Model):
     commentaire_titre = db.Column(db.Text)
     commentaire_source = db.Column(db.Text)
     commentaire_texte = db.Column(db.Text)
+    commentaire_mot_id = db.Column(db.Integer, db.ForeignKey('mot.mot_id'))
     authorships = db.relationship("Authorship", back_populates="commentaire")
     mot = db.relationship("Mot", back_populates="commentaire")
 
