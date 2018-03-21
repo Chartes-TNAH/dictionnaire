@@ -125,8 +125,8 @@ class Commentaire(db.Model):
     commentaire_titre = db.Column(db.Text)
     commentaire_source = db.Column(db.Text)
     commentaire_texte = db.Column(db.Text)
-    authorships = db.relationship("authorship", back_populates="commentaire")
-    mot = db.relationship("mot", back_populates="commentaire")
+    authorships = db.relationship("Authorship", back_populates="commentaire")
+    mot = db.relationship("Mot", back_populates="commentaire")
 
     def to_jsonapi_dict(self):
         """ It ressembles a little JSON API format but it is not completely compatible
