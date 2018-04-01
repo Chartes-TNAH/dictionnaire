@@ -25,15 +25,15 @@ DROP TABLE IF EXISTS `sortiaria`.`mot` ;
 
 CREATE TABLE IF NOT EXISTS `sortiaria`.`mot` (
   `mot_id` INT NOT NULL AUTO_INCREMENT,
-  `mot_terme` TINYTEXT NOT NULL,
+  `mot_terme` VARCHAR(45) NOT NULL,
   `mot_def` TEXT NOT NULL,
   `mot_commentaire` TEXT NOT NULL,
-  PRIMARY KEY (`mot_terme`))
+  PRIMARY KEY (`mot_id`))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `sortiaria`.`utilisateur`
+-- Table `sortiaria`.`user`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `sortiaria`.`user` ;
 
@@ -54,9 +54,9 @@ CREATE TABLE IF NOT EXISTS `sortiaria`.`authorship` (
   `authorship_user_id` INT NOT NULL,
   `authorship_mot_id` INT NOT NULL,
   `authorship_date` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
-  `commentaire_id` INT NOT NULL AUTO_INCREMENT,
-
+  `commentaire_id` INT NOT NULL,
   PRIMARY KEY (`authorship_id`),
+
   INDEX `fk_authorship_1_idx` (`authorship_mot_id` ASC),
   CONSTRAINT `fk_authorship_1`
     FOREIGN KEY (`authorship_mot_id`)
@@ -87,20 +87,20 @@ CREATE TABLE IF NOT EXISTS `sortiaria`.`commentaire` (
   `commentaire_source` TEXT NOT NULL,
   `commentaire_texte` TEXT NOT NULL,
   PRIMARY KEY (`commentaire_id`),
-  INDEX `fk_commentaire_1_idx` (`commentaire_mot_id` ASC),
+  INDEX `fk_commentaire_1_idx` (`commentaire_id` ASC),
   CONSTRAINT `fk_commentaire_1`
-    FOREIGN KEY (`commentaire_mot_id`)
+    FOREIGN KEY (`commentaire_id`)
     REFERENCES `sortiaria`.`mot` (`mot_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 SET SQL_MODE = '';
-GRANT USAGE ON *.* TO sortiaria_user;
- DROP USER sortiaria_user;
 SET SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
 CREATE USER 'sortiaria_user' IDENTIFIED BY 'password';
 
+GRANT USAGE ON *.* TO sortiaria_user;
 GRANT ALL ON `sortiaria`.* TO 'sortiaria_user';
 GRANT SELECT ON TABLE `sortiaria`.* TO 'sortiaria_user';
 GRANT SELECT, INSERT, TRIGGER ON TABLE `sortiaria`.* TO 'sortiaria_user';
