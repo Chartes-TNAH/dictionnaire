@@ -73,7 +73,7 @@ def browse():
     else:
         page = 1
 
-    resultats = Place.query.paginate(page=page, per_page=MOTS_PAR_PAGE)
+    resultats = Mot.query.paginate(page=page, per_page=MOTS_PAR_PAGE)
 
     return render_template(
         "pages/browse.html",
