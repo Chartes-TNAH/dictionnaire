@@ -26,6 +26,14 @@ def mot(mot_id):
     unique_mot = Mot.query.get(mot_id)
     return render_template("pages/mot.html", nom="Sortiaria", mot=unique_mot)
 
+@app.route("/mot/<int:mot_id>/tei")
+def export_tei(mot_id):
+    """ Route permettant l'affichage des données d'un mot en TEI
+    :param mot_id: Identifiant numérique du mot
+    """
+    unique_mot = Mot.query.get(mot_id)
+    return render_template("pages/export_tei.html", nom="Sortiaria", mot=unique_mot)
+
 
 @app.route("/recherche")
 def recherche():

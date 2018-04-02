@@ -27,6 +27,9 @@ class Mot(db.Model):
     __tablename__ = "mot"
     mot_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     mot_terme = db.Column(db.Text)
+    mot_phon = db.Column(db.Text)
+    mot_gram = db.Column(db.Text)
+    mot_genre = db.Column(db.Text)
     mot_def = db.Column(db.Text)
     mot_commentaire = db.Column(db.Text)
     authorships = db.relationship("Authorship", back_populates="mot")
@@ -41,6 +44,9 @@ class Mot(db.Model):
             "id": self.mot_id,
             "attributes": {
                 "terme": self.mot_terme,
+		"phon": self.mot_phon,
+		"gram": self.mot_gram,
+		"genre": self.mot_genre,
                 "definition": self.mot_def,
                 "commentaire": self.commentaire,
             },

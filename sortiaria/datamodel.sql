@@ -26,8 +26,11 @@ DROP TABLE IF EXISTS `sortiaria`.`mot` ;
 CREATE TABLE IF NOT EXISTS `sortiaria`.`mot` (
   `mot_id` INT NOT NULL AUTO_INCREMENT,
   `mot_terme` VARCHAR(45) NOT NULL,
+  `mot_phon` VARCHAR(45),
+  `mot_gram` VARCHAR(45) NOT NULL,
+  `mot_genre` VARCHAR(45),
   `mot_def` TEXT NOT NULL,
-  `mot_commentaire` TEXT NOT NULL,
+  `mot_commentaire` TEXT,
   PRIMARY KEY (`mot_id`))
 ENGINE = InnoDB;
 
@@ -98,7 +101,8 @@ ENGINE = InnoDB;
 SET SQL_MODE = '';
 SET SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-CREATE USER 'sortiaria_user' IDENTIFIED BY 'password';
+DROP USER IF EXISTS 'sortiaria_user'@'localhost';
+CREATE USER 'sortiaria_user'@'localhost' IDENTIFIED BY 'password';
 
 GRANT USAGE ON *.* TO sortiaria_user;
 GRANT ALL ON `sortiaria`.* TO 'sortiaria_user';
@@ -116,10 +120,10 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `sortiaria`;
-INSERT INTO `sortiaria`.`mot` (`mot_id`, `mot_terme`, `mot_def`, `mot_commentaire`) VALUES (1, 'Alchimiste', 'Celui qui s’occupait d’alchimie.', 'Comme dans Fullmetal Alchemist.');
-INSERT INTO `sortiaria`.`mot` (`mot_id`, `mot_terme`, `mot_def`, `mot_commentaire`) VALUES (2, 'Familier', 'Créature supposée entretenir un rapport mystique avec un·e magicien·ne ou sorcier·e.', 'Genre un chat.');
-INSERT INTO `sortiaria`.`mot` (`mot_id`, `mot_terme`, `mot_def`, `mot_commentaire`) VALUES (3, 'Balais', 'Mode de locomotion, héritage des balais de druide en genêt, bois auquel on prête des vertus magiques.', '');
-INSERT INTO `sortiaria`.`mot` (`mot_id`, `mot_terme`, `mot_def`, `mot_commentaire`) VALUES (4, 'Walpurgis, nuit de', 'Fête néo-païenne qui a lieu dans la nuit du 30 avril au 1er mai. Célébrée clandestinement dans toute l\'Europe depuis des temps reculés, malgré les interdits et les excommunications de l\'Église, elle a été identifiée au sabbat des sorcières.', '');
+INSERT INTO `sortiaria`.`mot` (`mot_id`, `mot_terme`, `mot_phon`, `mot_gram`, `mot_genre`, `mot_def`, `mot_commentaire`) VALUES (1, 'Alchimiste', '\/alʃimist\/', 'nom commun', 'masculin', 'Celui qui s’occupait d’alchimie.', 'Comme dans Fullmetal Alchemist.');
+INSERT INTO `sortiaria`.`mot` (`mot_id`, `mot_terme`, `mot_phon`, `mot_gram`, `mot_genre`, `mot_def`, `mot_commentaire`) VALUES (2, 'Familier', '\/familje\/', 'nom commun', 'masculin', 'Créature supposée entretenir un rapport mystique avec un·e magicien·ne ou sorcier·e.', 'Genre un chat.');
+INSERT INTO `sortiaria`.`mot` (`mot_id`, `mot_terme`, `mot_phon`, `mot_gram`, `mot_genre`, `mot_def`, `mot_commentaire`) VALUES (3, 'Balais', '', 'nom commun', 'masculin', 'Mode de locomotion, héritage des balais de druide en genêt, bois auquel on prête des vertus magiques.', '');
+INSERT INTO `sortiaria`.`mot` (`mot_id`, `mot_terme`, `mot_phon`, `mot_gram`, `mot_genre`, `mot_def`, `mot_commentaire`) VALUES (4, 'Walpurgis, nuit de', '\/walpyʁʒi\/', 'nom propre', '', 'Fête néo-païenne qui a lieu dans la nuit du 30 avril au 1er mai. Célébrée clandestinement dans toute l\'Europe depuis des temps reculés, malgré les interdits et les excommunications de l\'Église, elle a été identifiée au sabbat des sorcières.', '');
 
 COMMIT;
 
