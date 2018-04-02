@@ -4,11 +4,11 @@
 {%endblock%}
 {% block corps %}
 <h1>Bienvenue !</h1>
-    {% if mot %}
-    <p>{{mot|length}} derniers mots enregistrés :</p>
+    {% if mots %}
+    <p>{{mots|length}} derniers mots enregistrés :</p>
         <ul>
-            {% for mot_terme in mot %}
-                <li><a href="{{url_for('mot', mot_terme=mot.mot_id)}}">{{mot.mot_terme}}</a></li>
+            {% for mot in mots %}
+                <li><a href="{{url_for('mot', mot_id=mot.mot_id)}}">{{mot.mot_terme}}</a></li>
             {% endfor %}
         </ul>
     {% else %}
