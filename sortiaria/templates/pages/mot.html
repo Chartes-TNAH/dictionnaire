@@ -7,17 +7,26 @@
 {% block corps %}
     {% if mot %}
         <h1>{{mot.mot_terme}}</h1>
+	<p>{% if mot.mot_phon %}{{mot.mot_phon}}<br/>{% endif %}
+
+	{{mot.mot_gram}}
+	{% if mot.mot_genre %}
+		<br/>{{mot.mot_genre}}
+	{% endif %}
+</p>
         <dl>
             <dt>Définition</dt><dd>{{mot.mot_def}}</dd>
+	    {% if mot.mot_commentaire %}
+	    <dt>Commentaire</dt><dd>{{mot.mot_commentaire}}</dd>
+	    {% endif %}
         </dl>
     {% else %}
         <p>La base de données est en cours de constitution</p>
     {% endif %}
-    <p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
     {% if current_user.is_authenticated %}
         <a class="nav-link" href="{{url_for('modif_mot', mot_id=mot.mot_id)}}">Editer</a>
-        {%endif %}
-    <p><a href="{{url_for('export')}}">Télécharger le fichier en TEI</a></p>
+    {%endif %}
+    <a class="nav-link" href="{{url_for('export_tei', mot_id=mot.mot_id)}}">Télécharger le fichier en TEI</a>
     <!-- le bouton d'export reste à créer -->
     <p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
 {% endblock %}
