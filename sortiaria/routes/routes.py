@@ -62,7 +62,7 @@ def recherche():
         titre = "Résultat pour la recherche `" + motclef + "`"
 
     return render_template(
-        "pages/recherche.html",
+        "partials/recherche.html",
         resultats=resultats,
         titre=titre,
         keyword=motclef
