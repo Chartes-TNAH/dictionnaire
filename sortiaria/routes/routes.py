@@ -34,6 +34,21 @@ def export_tei(mot_id):
     unique_mot = Mot.query.get(mot_id)
     return render_template("pages/export_tei.html", nom="Sortiaria", mot=unique_mot)
 
+@app.route("/mot/<int:mot_id>/modifier")
+def modif_mot(mot_id):
+    """ Route permettant de modifier un mot
+    :param mot_id: Identifiant numérique du mot
+    """
+    unique_mot = Mot.query.get(mot_id)
+    return render_template("pages/modif_mot.html", nom="Sortiaria", mot=unique_mot)
+
+@app.route("/mot/<int:mot_id>/commentaire")
+def commenter(mot_id):
+    """ Route permettant l'ajout d'un commentaire sur un mot
+    :param mot_id: Identifiant numérique du mot
+    """
+    unique_mot = Mot.query.get(mot_id)
+    return render_template("pages/ajout_commentaire.html", nom="Sortiaria", mot=unique_mot)
 
 @app.route("/recherche")
 def recherche():
@@ -95,11 +110,11 @@ def inscription():
     # Si on est en POST, cela veut dire que le formulaire a été envoyé
     if request.method == "POST":
         statut, donnees = User.creer(
-            login=request.form.get("login", None),
-            email=request.form.get("email", None),
-            nom=request.form.get("nom", None),
-            motdepasse=request.form.get("motdepasse", None)
-        )
+		login=request.form.get("login", None),
+		email=request.form.get("email", None),
+		nom=request.form.get("nom", None),
+		motdepasse=request.form.get("motdepasse", None)
+	)
         if statut is True:
             flash("Enregistrement effectué. Identifiez-vous maintenant", "success")
             return redirect("/")
@@ -120,9 +135,10 @@ def connexion():
     # Si on est en POST, cela veut dire que le formulaire a été envoyé
     if request.method == "POST":
         utilisateur = User.identification(
-            login=request.form.get("login", None),
-            motdepasse=request.form.get("motdepasse", None)
-        )
+		login=request.form.get("login", None),
+		motdepasse=request.form.get("motdepasse", None)
+	)
+        
         if utilisateur:
             flash("Connexion effectuée", "success")
             login_user(utilisateur)
@@ -131,7 +147,8 @@ def connexion():
             flash("Les identifiants n'ont pas été reconnus", "error")
 
     return render_template("pages/connexion.html")
-login.login_view = 'connexion'
+	
+    login.login_view = 'connexion'
 
 
 @app.route("/deconnexion", methods=["POST", "GET"])
