@@ -10,7 +10,7 @@
     {% if resultats %}
         <p>Il y a {{resultats.total}} mots qui répondent à votre requête :</p>
         <ul>
-            {% for lieu in resultats.items %}
+            {% for mot in resultats.items %}
                 <li><a href="{{url_for('mot', mot_id=mot.mot_id)}}">{{mot.mot_terme}}</a></li>
             {% endfor %}
         </ul>
