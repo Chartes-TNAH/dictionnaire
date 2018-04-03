@@ -95,10 +95,10 @@ def inscription():
     # Si on est en POST, cela veut dire que le formulaire a été envoyé
     if request.method == "POST":
         statut, donnees = User.creer(
-            login=request.form.post("login", None),
-            email=request.form.post("email", None),
-            nom=request.form.post("nom", None),
-            motdepasse=request.form.post("motdepasse", None)
+            login=request.form.get("login", None),
+            email=request.form.get("email", None),
+            nom=request.form.get("nom", None),
+            motdepasse=request.form.get("motdepasse", None)
         )
         if statut is True:
             flash("Enregistrement effectué. Identifiez-vous maintenant", "success")
@@ -120,8 +120,8 @@ def connexion():
     # Si on est en POST, cela veut dire que le formulaire a été envoyé
     if request.method == "POST":
         utilisateur = User.identification(
-            login=request.form.post("login", None),
-            motdepasse=request.form.post("motdepasse", None)
+            login=request.form.get("login", None),
+            motdepasse=request.form.get("motdepasse", None)
         )
         if utilisateur:
             flash("Connexion effectuée", "success")
