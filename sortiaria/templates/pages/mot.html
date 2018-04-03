@@ -7,7 +7,7 @@
 {% block corps %}
     {% if mot %}
         <h1>{{mot.mot_terme}}</h1>
-	<p>{% if mot.mot_phon %}{{mot.mot_phon}}<br/>{% endif %}
+	<p>{% if mot.mot_phon %}/{{mot.mot_phon}}/<br/>{% endif %}
 
 	{{mot.mot_gram}}
 	{% if mot.mot_genre %}
@@ -25,7 +25,8 @@
     {% endif %}
     {% if current_user.is_authenticated %}
         <a class="nav-link" href="{{url_for('modif_mot', mot_id=mot.mot_id)}}">Editer</a>
-    {%endif %}
+	<a class="nav-link" href="{{url_for('commenter', mot_id=mot.mot_id)}}">Ajouter un commentaire</a>
+    {% endif %}
     <a class="nav-link" href="{{url_for('export_tei', mot_id=mot.mot_id)}}">Télécharger le fichier en TEI</a>
     <!-- le bouton d'export reste à créer -->
     <p><a href="{{url_for('accueil')}}">Retour à l'accueil</a></p>
