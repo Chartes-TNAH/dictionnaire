@@ -26,6 +26,57 @@ def mot(mot_id):
     unique_mot = Mot.query.get(mot_id)
     return render_template("pages/mot.html", nom="Sortiaria", mot=unique_mot)
 
+@app.route("/mot/<int:mot_id>/modif_mot", methods=["GET", "POST"])
+def modif_mot(mot_id):
+    """ Route permettant des modifier les données d'un mot
+    :param mot_id: Identifiant numérique du mot
+    """
+    # On a bien sûr aussi modifié le template pour refléter le changement
+    unique_mot = Mot.query.get(mot_id)
+    if request.method == "POST":
+        status, donnees = Mot.modif_mot(
+            id=mot_id,
+            mot=request.args.get("mot", None),
+            prononciation=request.args.get("prononciation", None),
+            grammaire=request.args.get("grammaire", None),
+            genre=request.args.get("genre", None),
+            definition=request.args.get("definition", None),
+            commentaire=request.args.get("commentaire", None)
+        )
+
+        if status is True :
+            flash("Merci pour votre contribution !", "success")
+            unique_mot = Mot.query.get(mot_id)
+            return redirect("/browse")
+
+        else:
+            flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "error")
+            unique_mot = Mot.query.get(mot_id)
+    return render_template("pages/modif_mot.html", nom="Sortiaria", mot=unique_mot)    
+
+@app.route("/contribuer", methods=["GET", "POST"])
+def ajout_mot(mot_id):
+    # Route permettant d'ajouter des entrées 
+    
+    # Si on est en POST, cela veut dire que le formulaire a été envoyé
+    if request.method == "POST":
+        statut, donnees = Mot.ajout_mot(
+            id=mot_id,
+            mot=request.args.get("mot", None),
+            prononciation=request.args.get("prononciation", None),
+            grammaire=request.args.get("grammaire", None),
+            genre=request.args.get("genre", None),
+            definition=request.args.get("definition", None),
+            commentaire=request.args.get("commentaire", None)
+        )
+        if statut is True:
+            flash("Enregistrement effectué", "success")
+            return redirect("/browse")
+        else:
+            flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "error")
+            return render_template("pages/ajout_mot.html")
+    return render_template("pages/ajout_mot.html")
+   
 @app.route("/mot/<int:mot_id>/tei")
 def export_tei(mot_id):
     """ Route permettant l'affichage des données d'un mot en TEI
@@ -34,6 +85,13 @@ def export_tei(mot_id):
     unique_mot = Mot.query.get(mot_id)
     return render_template("pages/export_tei.html", nom="Sortiaria", mot=unique_mot)
 
+@app.route("/mot/<int:mot_id>/commentaire")
+def commenter(mot_id):
+    """ Route permettant l'ajout d'un commentaire sur un mot
+    :param mot_id: Identifiant numérique du mot
+    """
+    unique_mot = Mot.query.get(mot_id)
+    return render_template("pages/ajout_commentaire.html", nom="Sortiaria", mot=unique_mot)
 
 @app.route("/recherche")
 def recherche():

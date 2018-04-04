@@ -101,8 +101,8 @@ ENGINE = InnoDB;
 SET SQL_MODE = '';
 SET SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-DROP USER IF EXISTS 'sortiaria_user'@'localhost';
-CREATE USER 'sortiaria_user'@'localhost' IDENTIFIED BY 'password';
+DROP USER IF EXISTS 'sortiaria_user';
+CREATE USER 'sortiaria_user' IDENTIFIED BY 'password';
 
 GRANT USAGE ON *.* TO sortiaria_user;
 GRANT ALL ON `sortiaria`.* TO 'sortiaria_user';
@@ -120,10 +120,10 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `sortiaria`;
-INSERT INTO `sortiaria`.`mot` (`mot_id`, `mot_terme`, `mot_phon`, `mot_gram`, `mot_genre`, `mot_def`, `mot_commentaire`) VALUES (1, 'Alchimiste', '\/alʃimist\/', 'nom commun', 'masculin', 'Celui qui s’occupait d’alchimie.', 'Comme dans Fullmetal Alchemist.');
-INSERT INTO `sortiaria`.`mot` (`mot_id`, `mot_terme`, `mot_phon`, `mot_gram`, `mot_genre`, `mot_def`, `mot_commentaire`) VALUES (2, 'Familier', '\/familje\/', 'nom commun', 'masculin', 'Créature supposée entretenir un rapport mystique avec un·e magicien·ne ou sorcier·e.', 'Genre un chat.');
+INSERT INTO `sortiaria`.`mot` (`mot_id`, `mot_terme`, `mot_phon`, `mot_gram`, `mot_genre`, `mot_def`, `mot_commentaire`) VALUES (1, 'Alchimiste', 'alʃimist', 'nom commun', 'masculin', 'Celui qui s’occupait d’alchimie.', 'Comme dans Fullmetal Alchemist.');
+INSERT INTO `sortiaria`.`mot` (`mot_id`, `mot_terme`, `mot_phon`, `mot_gram`, `mot_genre`, `mot_def`, `mot_commentaire`) VALUES (2, 'Familier', 'familje', 'nom commun', 'masculin', 'Créature supposée entretenir un rapport mystique avec un·e magicien·ne ou sorcier·e.', 'Genre un chat.');
 INSERT INTO `sortiaria`.`mot` (`mot_id`, `mot_terme`, `mot_phon`, `mot_gram`, `mot_genre`, `mot_def`, `mot_commentaire`) VALUES (3, 'Balais', '', 'nom commun', 'masculin', 'Mode de locomotion, héritage des balais de druide en genêt, bois auquel on prête des vertus magiques.', '');
-INSERT INTO `sortiaria`.`mot` (`mot_id`, `mot_terme`, `mot_phon`, `mot_gram`, `mot_genre`, `mot_def`, `mot_commentaire`) VALUES (4, 'Walpurgis, nuit de', '\/walpyʁʒi\/', 'nom propre', '', 'Fête néo-païenne qui a lieu dans la nuit du 30 avril au 1er mai. Célébrée clandestinement dans toute l\'Europe depuis des temps reculés, malgré les interdits et les excommunications de l\'Église, elle a été identifiée au sabbat des sorcières.', '');
+INSERT INTO `sortiaria`.`mot` (`mot_id`, `mot_terme`, `mot_phon`, `mot_gram`, `mot_genre`, `mot_def`, `mot_commentaire`) VALUES (4, 'Walpurgis, nuit de', 'walpyʁʒi', 'nom propre', '', 'Fête néo-païenne qui a lieu dans la nuit du 30 avril au 1er mai. Célébrée clandestinement dans toute l\'Europe depuis des temps reculés, malgré les interdits et les excommunications de l\'Église, elle a été identifiée au sabbat des sorcières.', '');
 
 COMMIT;
 
@@ -131,6 +131,7 @@ COMMIT;
 -- -----------------------------------------------------
 -- Data for table `sortiaria`.`user`
 -- -----------------------------------------------------
+
 START TRANSACTION;
 USE `sortiaria`;
 INSERT INTO `sortiaria`.`user` (`user_id`, `user_nom`, `user_login`, `user_email`, `user_password`) VALUES (1, 'Administrator', 'admin', 'admin@supersite.com', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8');
