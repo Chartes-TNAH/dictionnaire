@@ -23,22 +23,25 @@
 
         <ul class="navbar-nav mr-auto">
               <li class="nav-item">
-                <a class="nav-link" href="{{url_for("browse")}}">Navigation</a>
+                <a class="nav-link" href="{{url_for('browse')}}">Navigation</a>
               </li>
             {% if not current_user.is_authenticated %}
               <li class="nav-item">
-                <a class="nav-link" href="{{url_for("inscription")}}">Inscription</a>
+                <a class="nav-link" href="{{url_for('inscription')}}">Inscription</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{{url_for("connexion")}}">Connexion</a>
+                <a class="nav-link" href="{{url_for('connexion')}}">Connexion</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for('ajout_mot')}}">Contribuer</a>
               </li>
             {% else %}
               <li class="nav-item">
-                <a class="nav-link" href="{{url_for("deconnexion")}}">Déconnexion ({{current_user.user_nom}})</a>
+                <a class="nav-link" href="{{url_for('deconnexion')}}">Déconnexion ({{current_user.user_nom}})</a>
               </li>
             {% endif %}
         </ul>
-        <form class="form-inline" action="{{url_for("recherche")}}" method="GET">
+        <form class="form-inline" action="{{url_for('recherche')}}" method="GET">
           <input class="form-control" name="keyword" type="search" placeholder="Recherche rapide" aria-label="Recherche">
           <button class="btn btn-info" type="submit">Rechercher</button>
         </form>
