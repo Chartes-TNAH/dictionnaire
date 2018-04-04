@@ -55,13 +55,12 @@ def modif_mot(mot_id):
     return render_template("pages/modif_mot.html", nom="Sortiaria", mot=unique_mot)    
 
 @app.route("/contribuer", methods=["GET", "POST"])
-def ajout_mot(mot_id):
+def ajout_mot():
     # Route permettant d'ajouter des entrées 
     
     # Si on est en POST, cela veut dire que le formulaire a été envoyé
     if request.method == "POST":
-        statut, donnees = Mot.ajout_mot(
-            id=mot_id,
+        statut, donnees = Mot.creer_mot(
             mot=request.args.get("mot", None),
             prononciation=request.args.get("prononciation", None),
             grammaire=request.args.get("grammaire", None),

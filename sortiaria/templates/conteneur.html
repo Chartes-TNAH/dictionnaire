@@ -32,12 +32,13 @@
               <li class="nav-item">
                 <a class="nav-link" href="{{url_for('connexion')}}">Connexion</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{url_for('ajout_mot')}}">Contribuer</a>
-              </li>
+              
             {% else %}
               <li class="nav-item">
                 <a class="nav-link" href="{{url_for('deconnexion')}}">Déconnexion ({{current_user.user_nom}})</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for('ajout_mot')}}">Contribuer</a>
               </li>
             {% endif %}
         </ul>
