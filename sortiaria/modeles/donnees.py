@@ -62,7 +62,7 @@ class Mot(db.Model):
             }
         }    
     @staticmethod
-    def creer_mot(terme, definition):
+    def creer_mot(terme, definition, grammaire, genre, prononciation, commentaire):
         # ce qui suit sert à ajouter un mot (par les utilisateurs)
         erreurs = []
         if not terme:
@@ -79,6 +79,10 @@ class Mot(db.Model):
         mot = Mot(
             mot_terme=terme,
             mot_def=definition,
+            mot_phon=prononciation,
+            mot_gram=grammaire,
+            mot_genre=genre,
+            mot_commentaire=commentaire
         )
         print(mot)
         try:
@@ -94,9 +98,11 @@ class Mot(db.Model):
             return False, [str(erreur)]
 
     @staticmethod
-    def modif_mot(id, terme, definition):
+    def modif_mot(id, terme, definition, grammaire, genre, prononciation, commentaire):
         #ce qui suit permet à l'utilisateur de modifier un mot
-        erreurs = []
+
+        mot = Mot.query.get(id)
+
         erreurs = []
         if not terme:
             erreurs.append("Le terme est obligatoire")
@@ -109,10 +115,12 @@ class Mot(db.Model):
             print(erreurs, terme, definition)
             return False, erreurs
 
-        mot = Mot.query.get(id)
-
         mot.mot_terme = terme
         mot.mot_def = definition
+        mot.mot_phon = prononciation
+        mot.mot_gram = grammaire
+        mot.mot_genre = genre
+        mot.mot_commentaire = commentaire
 
         try:
 

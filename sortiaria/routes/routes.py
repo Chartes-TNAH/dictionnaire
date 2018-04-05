@@ -36,7 +36,7 @@ def modif_mot(mot_id):
     if request.method == "POST":
         status, donnees = Mot.modif_mot(
             id=mot_id,
-            mot=request.args.get("mot", None),
+            terme=request.args.get("mot", None),
             prononciation=request.args.get("prononciation", None),
             grammaire=request.args.get("grammaire", None),
             genre=request.args.get("genre", None),
@@ -61,7 +61,7 @@ def ajout_mot():
     # Si on est en POST, cela veut dire que le formulaire a été envoyé
     if request.method == "POST":
         statut, donnees = Mot.creer_mot(
-            mot=request.args.get("mot", None),
+            terme=request.args.get("mot", None),
             prononciation=request.args.get("prononciation", None),
             grammaire=request.args.get("grammaire", None),
             genre=request.args.get("genre", None),
