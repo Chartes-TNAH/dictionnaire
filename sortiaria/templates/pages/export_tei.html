@@ -1,37 +1,37 @@
-&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?&gt;
-&lt;?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
-	schematypens="http://purl.oclc.org/dsdl/schematron"?&gt;
-&lt;TEI xmlns="http://www.tei-c.org/ns/1.0"&gt;
-   &lt;teiHeader&gt;
-      &lt;fileDesc&gt;
-         &lt;titleStmt&gt;
-            &lt;title&gt;Sortiaria — {{ mot.mot_terme }}&lt;&#47;title&gt;
-         &lt;&#47;titleStmt&gt;
-         &lt;publicationStmt&gt;
-            &lt;p&gt;Sortiaria est un dictionnaire en ligne développé par Marie-Laurence Bonhomme, Léa
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+   <teiHeader>
+      <fileDesc>
+         <titleStmt>
+            <title>Sortiaria — {{ mot.mot_terme }}</title>
+         </titleStmt>
+         <publicationStmt>
+            <p>Sortiaria est un dictionnaire en ligne développé par Marie-Laurence Bonhomme, Léa
                Frering, Armâne Magnier et Alyx Taounza-Jeminet en Master 2 Technologies numériques
-               appliquées à l'histoire à l'École nationale des chartes.&lt;&#47;p&gt;
-         &lt;&#47;publicationStmt&gt;
-         &lt;sourceDesc&gt;
-            &lt;p&gt; &lt;&#47;p&gt;
-         &lt;&#47;sourceDesc&gt;
-      &lt;&#47;fileDesc&gt;
-   &lt;&#47;teiHeader&gt;
-   &lt;text&gt;
-      &lt;body&gt;
-         &lt;entry&gt;
-            &lt;form&gt;
-               &lt;orth&gt;{{ mot.mot_terme }}&lt;&#47;orth&gt;
-               &lt;pron&gt;{{ mot.mot_phon }}&lt;&#47;pron&gt;
-            &lt;&#47;form&gt;
-            &lt;gramGrp&gt;
-               &lt;pos&gt;{{ mot.mot_gram }}&lt;&#47;pos&gt;
-               &lt;gen&gt;{{ mot.mot_genre }}&lt;&#47;gen&gt;
-            &lt;&#47;gramGrp&gt;
-            &lt;sense&gt;&lt;def&gt;{{ mot.mot_def }}&lt;&#47;def&gt;&lt;&#47;sense&gt;
-            &lt;note&gt;{{ mot.mot_commentaire }}&lt;&#47;note&gt;
-         &lt;&#47;entry&gt;
-      &lt;&#47;body&gt;
-   &lt;&#47;text&gt;
-&lt;&#47;TEI&gt;
+               appliquées à l'histoire à l'École nationale des chartes.</p>
+         </publicationStmt>
+         <sourceDesc>
+            <p> </p>
+         </sourceDesc>
+      </fileDesc>
+   </teiHeader>
+   <text>
+      <body>
+         <entry>
+            <form>
+               <orth>{{ mot.mot_terme }}</orth>
+               <pron>{{ mot.mot_phon }}</pron>
+            </form>
+            <gramGrp>
+               <pos>{{ mot.mot_gram }}</pos>
+               <gen>{{ mot.mot_genre }}</gen>
+            </gramGrp>
+            <sense><def>{{ mot.mot_def }}</def></sense>
+            <note>{{ mot.mot_commentaire }}</note>
+         </entry>
+      </body>
+   </text>
+</TEI>
