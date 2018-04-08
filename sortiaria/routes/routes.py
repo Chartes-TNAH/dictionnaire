@@ -85,12 +85,23 @@ def export_tei(mot_id):
     return render_template("pages/export_tei.html", nom="Sortiaria", mot=unique_mot)
 
 @app.route("/mot/<int:mot_id>/commentaire")
-def commenter(mot_id):
+def ajout_commentaire(mot_id):
     """ Route permettant l'ajout d'un commentaire sur un mot
     :param mot_id: Identifiant numérique du mot
     """
-    unique_mot = Mot.query.get(mot_id)
-    return render_template("pages/ajout_commentaire.html", nom="Sortiaria", mot=unique_mot)
+    if request.method == "POST":
+        statut, donnees = Commentaire.ajout_commentaire(
+            titre=request.form.get("titre", None),
+            commentaire=request.form.get("commentaire", None)
+        )
+        if statut is True:
+            flash("Enregistrement effectué", "success")
+            return redirect("/browse")
+        else:
+            flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "error")
+            return render_template("pages/ajout_commentaire.html")
+    unique_commentaire = Commentaire.query.get(commentaire_id)
+    return render_template("pages/ajout_commentaire.html", nom="Sortiaria", commentaire=unique_commentaire)
 
 @app.route("/recherche")
 def recherche():
