@@ -26,7 +26,7 @@ class User(UserMixin, db.Model):
         return None
 
     @staticmethod
-    def creer(login, email, nom, motdepasse):
+    def creer(login, email, nom, password):
         """ Crée un compte utilisateur-rice. Retourne un tuple (booléen, User ou liste).
         Si il y a une erreur, la fonction renvoie False suivi d'une liste d'erreur
         Sinon, elle renvoie True suivi de la donnée enregistrée
@@ -42,7 +42,7 @@ class User(UserMixin, db.Model):
             erreurs.append("L'email fourni est vide")
         if not nom:
             erreurs.append("Le nom fourni est vide")
-        if not motdepasse or len(motdepasse) < 6:
+        if not password or len(password) < 6:
             erreurs.append("Le mot de passe fourni est vide ou trop court")
 
         # On vérifie que personne n'a utilisé cet email ou ce login
@@ -61,7 +61,7 @@ class User(UserMixin, db.Model):
             user_nom=nom,
             user_login=login,
             user_email=email,
-            user_password=generate_password_hash(motdepasse)
+            user_password=generate_password_hash(password)
         )
 
         try:

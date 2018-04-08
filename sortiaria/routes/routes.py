@@ -36,12 +36,12 @@ def modif_mot(mot_id):
     if request.method == "POST":
         status, donnees = Mot.modif_mot(
             id=mot_id,
-            terme=request.args.get("mot", None),
-            prononciation=request.args.get("prononciation", None),
-            grammaire=request.args.get("grammaire", None),
-            genre=request.args.get("genre", None),
-            definition=request.args.get("definition", None),
-            commentaire=request.args.get("commentaire", None)
+            terme=request.form.get("mot", None),
+            prononciation=request.form.get("prononciation", None),
+            grammaire=request.form.get("grammaire", None),
+            genre=request.form.get("genre", None),
+            definition=request.form.get("definition", None),
+            commentaire=request.form.get("commentaire", None)
         )
 
         if status is True :
@@ -61,12 +61,12 @@ def ajout_mot():
     # Si on est en POST, cela veut dire que le formulaire a été envoyé
     if request.method == "POST":
         statut, donnees = Mot.creer_mot(
-            terme=request.args.get("mot", None),
-            prononciation=request.args.get("prononciation", None),
-            grammaire=request.args.get("grammaire", None),
-            genre=request.args.get("genre", None),
-            definition=request.args.get("definition", None),
-            commentaire=request.args.get("commentaire", None)
+            terme=request.form.get("mot", None),
+            prononciation=request.form.get("prononciation", None),
+            grammaire=request.form.get("grammaire", None),
+            genre=request.form.get("genre", None),
+            definition=request.form.get("definition", None),
+            commentaire=request.form.get("commentaire", None)
         )
         if statut is True:
             flash("Enregistrement effectué", "success")
@@ -155,7 +155,7 @@ def inscription():
             login=request.form.get("login", None),
             email=request.form.get("email", None),
             nom=request.form.get("nom", None),
-            motdepasse=request.form.get("motdepasse", None)
+            password=request.form.get("password", None)
         )
         if statut is True:
             flash("Enregistrement effectué. Identifiez-vous maintenant", "success")
