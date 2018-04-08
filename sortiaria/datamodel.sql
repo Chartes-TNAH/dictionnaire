@@ -98,6 +98,10 @@ CREATE TABLE IF NOT EXISTS `sortiaria`.`commentaire` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table `sortiaria`.`configuration database`
+-- -----------------------------------------------------
 SET SQL_MODE = '';
 SET SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
@@ -135,5 +139,15 @@ COMMIT;
 START TRANSACTION;
 USE `sortiaria`;
 INSERT INTO `sortiaria`.`user` (`user_id`, `user_nom`, `user_login`, `user_email`, `user_password`) VALUES (1, 'Administrator', 'admin', 'admin@supersite.com', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8');
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `sortiaria`.`commentaire`
+-- -----------------------------------------------------
+
+START TRANSACTION;
+USE `sortiaria`;
+INSERT INTO `sortiaria`.`commentaire` (`commentaire_mot_id`, `commentaire_id`, `commentaire_titre`, `commentaire_texte`, `commentaire_source ) VALUES (1, 1, 'Les sorcières ont tout compris', 'Les sorcières sont féministes');
 
 COMMIT;

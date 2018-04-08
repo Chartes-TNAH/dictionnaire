@@ -25,7 +25,7 @@
     {% endif %}
     {% if current_user.is_authenticated %}
         <a class="nav-link" href="{{url_for('modif_mot', mot_id=mot.mot_id)}}">Editer</a>
-        <a class="nav-link" href="{{url_for('commenter', mot_id=mot.mot_id)}}">Ajouter un commentaire</a>
+        <a class="nav-link" href="{{url_for('ajout_commentaire', mot_id=mot.mot_id)}}">Ajouter un commentaire</a>
     {% endif %}
     <a class="nav-link" href="{{url_for('export_tei', mot_id=mot.mot_id)}}" class="btn btn-primary">Télécharger le fichier en TEI</a>
     

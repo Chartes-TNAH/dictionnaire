@@ -136,7 +136,7 @@ class Mot(db.Model):
             return False, [str(erreur)]
 
 # On crée notre modèle de commentaire           
-class Commentaire(db.Model):
+class commentaire(db.Model):
     __tablename__ = "commentaire"
     commentaire_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     commentaire_titre = db.Column(db.Text)
@@ -170,55 +170,20 @@ class Commentaire(db.Model):
             }
         }    
      
-    @staticmethod
-    def ajout_commentaire(id, terme, definition):
-        #ce qui suit permet à l'utilisateur de modifier un mot
-        erreurs = []
-        erreurs = []
-        if not terme:
-            erreurs.append("Le terme est obligatoire")
-        if not definition:
-            erreurs.append("Il faut donner une définition au mot")
-
-
-        # S'il y a une erreur ou plus
-        if len(erreurs) > 0:
-            print(erreurs, terme, definition)
-            return False, erreurs
-
-        mot = Mot.query.get(id)
-
-        mot.mot_terme = terme
-        mot.mot_def = definition
-
-        try:
-
-            # On l'ajoute au transport vers la base de données
-            db.session.add(mot)
-            # On envoie le paquet
-            db.session.commit()
-
-            # On renvoie l'utilisateur
-            return True, mot
-
-        except Exception as erreur:
-            return False, [str(erreur)]
     
     @staticmethod
     # ce qui suit sert à ajouter un commentaire (par les utilisateurs)
-    def creer_commentaire(titre, source, texte):
+    def ajout_commentaire(titre, source, texte):
         erreurs = []
         if not titre:
             erreurs.append("Le titre est obligatoire")
-        if not source:
-            erreurs.append("Au moins une source est nécessaire")
         if not texte:
             erreurs.append("Rédigez un commentaire")
         
 
         # S'il y a une erreur ou plus
         if len(erreurs) > 0:
-            print(erreurs, titre, source, texte)
+            print(erreurs, titre, texte)
             return False, erreurs
 
         commentaire = Commentaire(
