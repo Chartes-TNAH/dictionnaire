@@ -13,7 +13,7 @@ class Authorship(db.Model):
     authorship_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     user = db.relationship("User", back_populates="authorships")
     mot = db.relationship("Mot", back_populates="authorships")
-    commentaire = db.relationship("Commentaire", back_populates="authorships")
+    commentaire = db.relationship("commentaire", back_populates="authorships")
 
     def author_to_json(self):
         return {
@@ -33,7 +33,7 @@ class Mot(db.Model):
     mot_def = db.Column(db.Text)
     mot_commentaire = db.Column(db.Text)
     authorships = db.relationship("Authorship", back_populates="mot")
-    commentaire = db.relationship("Commentaire", back_populates="mot")
+    commentaire = db.relationship("commentaire", back_populates="mot")
 
     def to_jsonapi_dict(self):
         """ It ressembles a little JSON API format but it is not completely compatible
