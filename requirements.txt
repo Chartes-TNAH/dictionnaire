@@ -1,0 +1,7 @@
+flask
+flask_sqlalchemy==2.3.2.
+flask_login
+feedparser
+mysqlclient
+beautifulsoup4
+requests
