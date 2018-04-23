@@ -10,17 +10,16 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 -- Schema sortiaria
 -- -----------------------------------------------------
+
 DROP SCHEMA IF EXISTS `sortiaria` ;
 
--- -----------------------------------------------------
--- Schema sortiaria
--- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `sortiaria` DEFAULT CHARACTER SET utf8 ;
 USE `sortiaria` ;
 
 -- -----------------------------------------------------
 -- Table `sortiaria`.`mot`
 -- -----------------------------------------------------
+
 DROP TABLE IF EXISTS `sortiaria`.`mot` ;
 
 CREATE TABLE IF NOT EXISTS `sortiaria`.`mot` (
@@ -30,14 +29,13 @@ CREATE TABLE IF NOT EXISTS `sortiaria`.`mot` (
   `mot_gram` VARCHAR(45) NOT NULL,
   `mot_genre` VARCHAR(45),
   `mot_def` TEXT NOT NULL,
-  `mot_commentaire` TEXT,
   PRIMARY KEY (`mot_id`))
 ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `sortiaria`.`user`
 -- -----------------------------------------------------
+
 DROP TABLE IF EXISTS `sortiaria`.`user` ;
 
 CREATE TABLE IF NOT EXISTS `sortiaria`.`user` (
@@ -49,6 +47,10 @@ CREATE TABLE IF NOT EXISTS `sortiaria`.`user` (
   PRIMARY KEY (`user_id`),
   UNIQUE INDEX `user_login_UNIQUE` (`user_login` ASC))
 ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `sortiaria`.`authorship`
+-- -----------------------------------------------------
 
 DROP TABLE IF EXISTS `sortiaria`.`authorship` ;
 
@@ -78,30 +80,31 @@ CREATE TABLE IF NOT EXISTS `sortiaria`.`authorship` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-
 -- -----------------------------------------------------
 -- Table `sortiaria`.`commentaire`
 -- -----------------------------------------------------
+
 DROP TABLE IF EXISTS `sortiaria`.`commentaire` ;
 
 CREATE TABLE IF NOT EXISTS `sortiaria`.`commentaire` (
   `commentaire_id` INT NOT NULL AUTO_INCREMENT,
   `commentaire_titre` TINYTEXT NOT NULL,
-  `commentaire_source` TEXT NOT NULL,
+  `commentaire_source` TEXT,
   `commentaire_texte` TEXT NOT NULL,
+  `commentaire_mot_id` INT NOT NULL,
   PRIMARY KEY (`commentaire_id`),
   INDEX `fk_commentaire_1_idx` (`commentaire_id` ASC),
   CONSTRAINT `fk_commentaire_1`
-    FOREIGN KEY (`commentaire_id`)
+    FOREIGN KEY (`commentaire_mot_id`)
     REFERENCES `sortiaria`.`mot` (`mot_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Configuration database
+-- -----------------------------------------------------
 
--- -----------------------------------------------------
--- Table `sortiaria`.`configuration database`
--- -----------------------------------------------------
 SET SQL_MODE = '';
 SET SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
@@ -122,15 +125,15 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 -- Data for table `sortiaria`.`mot`
 -- -----------------------------------------------------
+
 START TRANSACTION;
 USE `sortiaria`;
-INSERT INTO `sortiaria`.`mot` (`mot_id`, `mot_terme`, `mot_phon`, `mot_gram`, `mot_genre`, `mot_def`, `mot_commentaire`) VALUES (1, 'Alchimiste', 'alʃimist', 'nom commun', 'masculin', 'Celui qui s’occupait d’alchimie.', 'Comme dans Fullmetal Alchemist.');
-INSERT INTO `sortiaria`.`mot` (`mot_id`, `mot_terme`, `mot_phon`, `mot_gram`, `mot_genre`, `mot_def`, `mot_commentaire`) VALUES (2, 'Familier', 'familje', 'nom commun', 'masculin', 'Créature supposée entretenir un rapport mystique avec un·e magicien·ne ou sorcier·e.', 'Genre un chat.');
-INSERT INTO `sortiaria`.`mot` (`mot_id`, `mot_terme`, `mot_phon`, `mot_gram`, `mot_genre`, `mot_def`, `mot_commentaire`) VALUES (3, 'Balais', '', 'nom commun', 'masculin', 'Mode de locomotion, héritage des balais de druide en genêt, bois auquel on prête des vertus magiques.', '');
-INSERT INTO `sortiaria`.`mot` (`mot_id`, `mot_terme`, `mot_phon`, `mot_gram`, `mot_genre`, `mot_def`, `mot_commentaire`) VALUES (4, 'Walpurgis, nuit de', 'walpyʁʒi', 'nom propre', '', 'Fête néo-païenne qui a lieu dans la nuit du 30 avril au 1er mai. Célébrée clandestinement dans toute l\'Europe depuis des temps reculés, malgré les interdits et les excommunications de l\'Église, elle a été identifiée au sabbat des sorcières.', '');
+INSERT INTO `sortiaria`.`mot` (`mot_id`, `mot_terme`, `mot_phon`, `mot_gram`, `mot_genre`, `mot_def`) VALUES (1, 'Alchimiste', 'alʃimist', 'nom commun', 'masculin', 'Celui qui s’occupait d’alchimie.');
+INSERT INTO `sortiaria`.`mot` (`mot_id`, `mot_terme`, `mot_phon`, `mot_gram`, `mot_genre`, `mot_def`) VALUES (2, 'Familier', 'familje', 'nom commun', 'masculin', 'Créature supposée entretenir un rapport mystique avec un·e magicien·ne ou sorcier·e.');
+INSERT INTO `sortiaria`.`mot` (`mot_id`, `mot_terme`, `mot_phon`, `mot_gram`, `mot_genre`, `mot_def`) VALUES (3, 'Balais', '', 'nom commun', 'masculin', 'Mode de locomotion, héritage des balais de druide en genêt, bois auquel on prête des vertus magiques.');
+INSERT INTO `sortiaria`.`mot` (`mot_id`, `mot_terme`, `mot_phon`, `mot_gram`, `mot_genre`, `mot_def`) VALUES (4, 'Walpurgis, nuit de', 'walpyʁʒi', 'nom propre', '', 'Fête néo-païenne qui a lieu dans la nuit du 30 avril au 1er mai. Célébrée clandestinement dans toute l\'Europe depuis des temps reculés, malgré les interdits et les excommunications de l\'Église, elle a été identifiée au sabbat des sorcières.');
 
 COMMIT;
-
 
 -- -----------------------------------------------------
 -- Data for table `sortiaria`.`user`
@@ -148,6 +151,7 @@ COMMIT;
 
 START TRANSACTION;
 USE `sortiaria`;
-INSERT INTO `sortiaria`.`commentaire` (`commentaire_mot_id`, `commentaire_id`, `commentaire_titre`, `commentaire_texte`, `commentaire_source ) VALUES (1, 1, 'Les sorcières ont tout compris', 'Les sorcières sont féministes');
+INSERT INTO `sortiaria`.`commentaire` (`commentaire_mot_id`, `commentaire_id`, `commentaire_titre`, `commentaire_texte`, `commentaire_source`) VALUES (1, 1, 'Un commentaire spirituel', 'Comme dans Fullmetal Alchemist échange équivalent FTW', '');
+INSERT INTO `sortiaria`.`commentaire` (`commentaire_mot_id`, `commentaire_id`, `commentaire_titre`, `commentaire_texte`, `commentaire_source`) VALUES (1, 2, 'Une remarque utile', 'Des pensées et des pratiques de type alchimique ont existé en Chine dès le IVe siècle av. J.-C. et en Inde dès le VIe siècle. L\'alchimie occidentale, quant à elle, commence dans l\'Égypte gréco-romaine au début de notre ère, puis dans le monde arabo-musulman, d\'où elle se transmet au Moyen Âge à l\'Occident latin, où elle se développe à la Renaissance et jusqu\'au début de l\'époque moderne. Jusqu\'à la fin du XVIIe siècle les mots alchimie et chimie sont synonymes et utilisés indifféremment. Ce n\'est qu\'au cours du XVIIIe siècle qu\'ils se distinguent et que l\'alchimie connaît une phase de déclin, sans toutefois disparaître totalement, alors que la chimie moderne s\'impose avec les travaux d\'Antoine Lavoisier.', 'Wikipedia j\'avoue');
 
 COMMIT;

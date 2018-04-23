@@ -13,7 +13,7 @@ class Authorship(db.Model):
     authorship_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     user = db.relationship("User", back_populates="authorships")
     mot = db.relationship("Mot", back_populates="authorships")
-    commentaire = db.relationship("commentaire", back_populates="authorships")
+    commentaires = db.relationship("Commentaire", back_populates="authorships")
 
     def author_to_json(self):
         return {
@@ -31,9 +31,8 @@ class Mot(db.Model):
     mot_gram = db.Column(db.Text)
     mot_genre = db.Column(db.Text)
     mot_def = db.Column(db.Text)
-    mot_commentaire = db.Column(db.Text)
     authorships = db.relationship("Authorship", back_populates="mot")
-    commentaire = db.relationship("commentaire", back_populates="mot")
+    commentaires = db.relationship("Commentaire", back_populates="mot")
 
     def to_jsonapi_dict(self):
         """ It ressembles a little JSON API format but it is not completely compatible
@@ -48,7 +47,6 @@ class Mot(db.Model):
 		"gram": self.mot_gram,
 		"genre": self.mot_genre,
                 "definition": self.mot_def,
-                "commentaire": self.commentaire,
             },
             "links": {
                 "self": url_for("mot", mot_id=self.mot_id, _external=True),
@@ -60,9 +58,10 @@ class Mot(db.Model):
                      for author in self.authorships
                  ]
             }
-        }    
+        }
+                
     @staticmethod
-    def creer_mot(terme, definition, grammaire, genre, prononciation, commentaire):
+    def creer_mot(terme, definition, grammaire, genre, prononciation):
         # ce qui suit sert à ajouter un mot (par les utilisateurs)
         erreurs = []
         if not terme:
@@ -82,7 +81,6 @@ class Mot(db.Model):
             mot_phon=prononciation,
             mot_gram=grammaire,
             mot_genre=genre,
-            mot_commentaire=commentaire
         )
         print(mot)
         try:
@@ -98,7 +96,7 @@ class Mot(db.Model):
             return False, [str(erreur)]
 
     @staticmethod
-    def modif_mot(id, terme, definition, grammaire, genre, prononciation, commentaire):
+    def modif_mot(id, terme, definition, grammaire, genre, prononciation):
         #ce qui suit permet à l'utilisateur de modifier un mot
 
         mot = Mot.query.get(id)
@@ -120,7 +118,6 @@ class Mot(db.Model):
         mot.mot_phon = prononciation
         mot.mot_gram = grammaire
         mot.mot_genre = genre
-        mot.mot_commentaire = commentaire
 
         try:
 
@@ -136,15 +133,15 @@ class Mot(db.Model):
             return False, [str(erreur)]
 
 # On crée notre modèle de commentaire           
-class commentaire(db.Model):
+class Commentaire(db.Model):
     __tablename__ = "commentaire"
     commentaire_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     commentaire_titre = db.Column(db.Text)
     commentaire_source = db.Column(db.Text)
     commentaire_texte = db.Column(db.Text)
     commentaire_mot_id = db.Column(db.Integer, db.ForeignKey('mot.mot_id'))
-    authorships = db.relationship("Authorship", back_populates="commentaire")
-    mot = db.relationship("Mot", back_populates="commentaire")
+    authorships = db.relationship("Authorship", back_populates="commentaires")
+    mot = db.relationship("Mot", back_populates="commentaires")
 
     def to_jsonapi_dict(self):
         """ It ressembles a little JSON API format but it is not completely compatible
