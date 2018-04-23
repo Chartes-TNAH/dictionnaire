@@ -24,7 +24,8 @@ def mot(mot_id):
     """
     # On a bien sûr aussi modifié le template pour refléter le changement
     unique_mot = Mot.query.get(mot_id)
-    return render_template("pages/mot.html", nom="Sortiaria", mot=unique_mot)
+    coms = unique_mot.commentaires
+    return render_template("pages/mot.html", nom="Sortiaria", mot=unique_mot, coms=coms)
 
 @app.route("/mot/<int:mot_id>/modif_mot", methods=["GET", "POST"])
 def modif_mot(mot_id):
@@ -41,7 +42,6 @@ def modif_mot(mot_id):
             grammaire=request.form.get("grammaire", None),
             genre=request.form.get("genre", None),
             definition=request.form.get("definition", None),
-            commentaire=request.form.get("commentaire", None)
         )
 
         if status is True :
@@ -66,7 +66,6 @@ def ajout_mot():
             grammaire=request.form.get("grammaire", None),
             genre=request.form.get("genre", None),
             definition=request.form.get("definition", None),
-            commentaire=request.form.get("commentaire", None)
         )
         if statut is True:
             flash("Enregistrement effectué", "success")
