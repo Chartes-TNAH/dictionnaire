@@ -1,0 +1,17 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}| Supprimer un mot{%endblock%}
+
+{% block corps %}
+
+<h1>Etes vous sûr de vouloir supprimer ce mot ?</h1>
+
+  <div class="form-group row">
+    
+    <a href="{{url_for('mot'), mot_id=mot.mot_id}}" class="btn btn-secondary">Non je ne veux pas supprimer le mot</a>
+
+<button type="submit" class="btn btn-primary">Oui je souhaite supprimer le mot</button>
+    
+  </div>
+</form>
+{% endblock %}
