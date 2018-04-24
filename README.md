@@ -29,9 +29,7 @@ Nous vous conseillons de mettre en place un environnement l'environnement virtue
 * créer un dossier
 * dans ce dossier, créer un environnement virtuel. Pour cela :
 
-  * Installer l'environnement virtuel avec la commande ```
-sudo apt-get install python3 libfreetype6-dev python3-pip python3-virtualenv
-```
+  * Installer l'environnement virtuel avec la commande `sudo apt-get install python3 libfreetype6-dev python3-pip python3-virtualenv`
 
   * Puis taper `virtualenv ~/.dictionnaire -p python3`
   * Ensuite, taper `source ~/.dictionnaire/bin/activate`
