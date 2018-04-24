@@ -32,10 +32,9 @@ Nous vous conseillons de mettre en place un environnement l'environnement virtue
   * Installer l'environnement virtuel avec la commande ```
 sudo apt-get install python3 libfreetype6-dev python3-pip python3-virtualenv
 ```
-.
+
   * Puis taper `virtualenv ~/.dictionnaire -p python3`
-  * Ensuite, taper `source ~/.dictionnaire/bin/activate
-`.
+  * Ensuite, taper `source ~/.dictionnaire/bin/activate`
 Cette commande sera nécessaire à chaque fois afin d'activer l'environnement virtuel pour pouvoir utiliser Sortiaria.
 * Cloner le dossier Dictionnaire en tapant `git clone`+url du code
 * Exécuter le fichier datamodel.sql en tapant dans le terminal `mysql -u root -p < datamodel.sql`
