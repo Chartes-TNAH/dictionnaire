@@ -1,0 +1,22 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}| Supprimer un mot{%endblock%}
+
+{% block corps %}
+
+<h1>Etes vous sûr de vouloir supprimer ce mot ?</h1>
+
+
+<div class="col-md container mt-3">
+				<div class="row">
+				<form class="col-3 mr-2 " method="POST" action="{{url_for('accueil')}}">
+				<button type="submit" class="btn btn-success btn-sm">Confirmer la suppression du mot</button>
+				</form>
+				<form class="col-3 ml-2" method="GET" action="{{ url_for('browse')}}">
+				<button type="submit" class="btn btn-danger btn-sm">Annuler</button>
+			</form>
+</div>
+
+
+</form>
+{% endblock %}

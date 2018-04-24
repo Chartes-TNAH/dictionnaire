@@ -75,7 +75,25 @@ def ajout_mot():
             flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "error")
             return render_template("pages/ajout_mot.html")
     return render_template("pages/ajout_mot.html")
-   
+
+@app.route("/mot/<int:mot_id>/supprimer_mot", methods=["GET", "POST"])
+def supprimer_mot(mot_id):
+    """ Route permettant la suppression d'un mot
+    :param mot_id: Identifiant numérique du mot
+    """
+    unique_mot = Mot.query.get(mot_id)
+
+    if request.method == "GET":
+        return render_template("pages/supprimer_mot.html", nom="Sortiaria", mot="unique_mot")
+    else:
+        status = Mot.delete_mot(mot_id=identifier)
+        if status is True :
+            flash("Mot supprimé !", "success")
+            return redirect("/accueil")
+        else:
+            flash("La suppression a échoué.", "danger")
+            return redirect("/mot")
+
 @app.route("/mot/<int:mot_id>/tei")
 def export_tei(mot_id):
     """ Route permettant l'affichage des données d'un mot en TEI
@@ -89,6 +107,7 @@ def ajout_commentaire(mot_id):
     """ Route permettant l'ajout d'un commentaire sur un mot
     :param mot_id: Identifiant numérique du mot
     """
+
     if request.method == "POST":
         statut, donnees = Commentaire.ajout_commentaire(
             titre=request.form.get("titre", None),
