@@ -100,7 +100,8 @@ def export_tei(mot_id):
     :param mot_id: Identifiant numérique du mot
     """
     unique_mot = Mot.query.get(mot_id)
-    return render_template("pages/export_tei.html", nom="Sortiaria", mot=unique_mot)
+    coms = unique_mot.commentaires
+    return render_template("pages/export_tei.html", nom="Sortiaria", mot=unique_mot, commentaire=coms)
 
 @app.route("/mot/<int:mot_id>/commentaire", methods=["GET", "POST"])
 def ajout_commentaire(mot_id):
