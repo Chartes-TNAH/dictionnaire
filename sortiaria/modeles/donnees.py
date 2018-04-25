@@ -133,25 +133,26 @@ class Mot(db.Model):
             return False, [str(erreur)]
 
     @staticmethod
-    def supprimer_mot(mot_id, terme, definition, grammaire, genre, prononciation):
+    def supprimer_mot(id):
         #Supprime un mot dans la base de données, retourne un booléen : True si la suppression a réussi, sinon False.
 
-        mot = Mot.query.get(mot_id)
+        unique_mot = Mot.query.get(id)
+        coms = unique_mot.commentaires
 
         try:
-            Mot.delete_mot(
-                mot_terme=terme,
-            mot_def=definition,
-            mot_phon=prononciation,
-            mot_gram=grammaire,
-            mot_genre=genre,
-        	)
                 
-            db.session.delete(mot)
+            db.session.delete(unique_mot)
             db.session.commit()
+
+            for com in coms:
+                db.session.delete(com)
+                db.session.commit()
+
             return True
+
         except Exception as failed:
-        	return False
+            return False
+            db.session.rollback()
 
 # On crée notre modèle de commentaire           
 class Commentaire(db.Model):
