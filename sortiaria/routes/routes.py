@@ -9,7 +9,7 @@ from ..constantes import MOTS_PAR_PAGE
 from flask_login import login_user, current_user, logout_user
 
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def accueil():
     """ Route permettant l'affichage d'une page accueil
     """
@@ -77,19 +77,19 @@ def ajout_mot():
     return render_template("pages/ajout_mot.html")
 
 @app.route("/mot/<int:mot_id>/supprimer_mot", methods=["GET", "POST"])
-def supprimer_mot(mot_id):
+def delete(mot_id):
     """ Route permettant la suppression d'un mot
     :param mot_id: Identifiant numérique du mot
     """
     unique_mot = Mot.query.get(mot_id)
 
     if request.method == "GET":
-        return render_template("pages/supprimer_mot.html", nom="Sortiaria", mot="unique_mot")
+        return render_template("pages/supprimer_mot.html", nom="Sortiaria", mot=unique_mot)
     else:
-        status = Mot.delete_mot(mot_id=identifier)
+        status = Mot.supprimer_mot(id=mot_id)
         if status is True :
             flash("Mot supprimé !", "success")
-            return redirect("/accueil")
+            return redirect("/browse")
         else:
             flash("La suppression a échoué.", "danger")
             return redirect("/mot" + str(mot_id))

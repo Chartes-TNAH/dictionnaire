@@ -12,7 +12,7 @@
 				<form class="col-3 mr-2 " method="POST" action="{{url_for('accueil')}}">
 				<button type="submit" class="btn btn-success btn-sm">Confirmer la suppression du mot</button>
 				</form>
-				<form class="col-3 ml-2" method="GET" action="{{ url_for('browse')}}">
+				<form class="col-3 ml-2" method="GET" action="{{ url_for('mot', mot_id=mot.mot_id)}}">
 				<button type="submit" class="btn btn-danger btn-sm">Annuler</button>
 			</form>
 </div>
