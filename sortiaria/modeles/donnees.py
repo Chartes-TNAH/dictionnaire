@@ -175,7 +175,6 @@ class Commentaire(db.Model):
                 "titre": self.commentaire_titre,
                 "source": self.commentaire_source,
                 "texte": self.commentaire_texte,
-                "commentaire_mot_id": mot.mot_id,
             },
             "links": {
                 "self": url_for("mot", commentaire_id=self.commentaire_id, _external=True),
@@ -209,6 +208,7 @@ class Commentaire(db.Model):
             commentaire_titre=titre,
             commentaire_source=source,
             commentaire_texte=texte,
+            commentaire_mot_id=mot_id,
         )
         print(commentaire)
         try:

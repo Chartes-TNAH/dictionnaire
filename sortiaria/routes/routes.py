@@ -111,8 +111,9 @@ def ajout_commentaire(mot_id):
     if request.method == "POST":
         statut, donnees = Commentaire.ajout_commentaire(
             titre=request.form.get("titre", None),
-            texte=request.form.get("commentaire", None),
+            texte=request.form.get("texte", None),
             source=request.form.get("source", None),
+            mot_id=request.args.get("mot_id", None),
         )
         if statut is True:
             flash("Commentaire enregistré !", "success")
