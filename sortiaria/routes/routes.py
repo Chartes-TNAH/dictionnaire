@@ -92,7 +92,7 @@ def supprimer_mot(mot_id):
             return redirect("/accueil")
         else:
             flash("La suppression a échoué.", "danger")
-            return redirect("/mot")
+            return redirect("/mot" + str(mot_id))
 
 @app.route("/mot/<int:mot_id>/tei")
 def export_tei(mot_id):
@@ -111,12 +111,13 @@ def ajout_commentaire(mot_id):
     if request.method == "POST":
         statut, donnees = Commentaire.ajout_commentaire(
             titre=request.form.get("titre", None),
-            texte=request.form.get("commentaire", None),
+            texte=request.form.get("texte", None),
             source=request.form.get("source", None),
+            c_mot_id=request.form.get("mot_id", None),
         )
         if statut is True:
             flash("Commentaire enregistré !", "success")
-            return redirect("/mot/<int:mot_id>")
+            return redirect("/mot/" + str(mot_id))
         else:
             flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "error")
             unique_mot = Mot.query.get(mot_id)

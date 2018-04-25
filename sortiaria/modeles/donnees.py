@@ -133,10 +133,10 @@ class Mot(db.Model):
             return False, [str(erreur)]
 
     @staticmethod
-    def supprimer_mot(id, terme, definition, grammaire, genre, prononciation):
+    def supprimer_mot(mot_id, terme, definition, grammaire, genre, prononciation):
         #Supprime un mot dans la base de données, retourne un booléen : True si la suppression a réussi, sinon False.
 
-        mot = Mot.query.get(id)
+        mot = Mot.query.get(mot_id)
 
         try:
             Mot.delete_mot(
@@ -175,7 +175,7 @@ class Commentaire(db.Model):
                 "titre": self.commentaire_titre,
                 "source": self.commentaire_source,
                 "texte": self.commentaire_texte,
-                "commentaire_mot_id": mot.mot_id,
+                "c_mot_id": self.commentaire_mot_id,
             },
             "links": {
                 "self": url_for("mot", commentaire_id=self.commentaire_id, _external=True),
@@ -192,13 +192,15 @@ class Commentaire(db.Model):
     
     @staticmethod
     # ce qui suit sert à ajouter un commentaire (par les utilisateurs)
-    def ajout_commentaire(titre, source, texte):
+    def ajout_commentaire(titre, source, texte, c_mot_id):
+
+        mot=Mot.query.get(id)
+
         erreurs = []
         if not titre:
             erreurs.append("Le titre est obligatoire")
         if not texte:
             erreurs.append("Rédigez un commentaire")
-        
 
         # S'il y a une erreur ou plus
         if len(erreurs) > 0:
@@ -209,6 +211,7 @@ class Commentaire(db.Model):
             commentaire_titre=titre,
             commentaire_source=source,
             commentaire_texte=texte,
+            commentaire_mot_id=c_mot_id,
         )
         print(commentaire)
         try:
@@ -221,5 +224,6 @@ class Commentaire(db.Model):
             return True, mot
 
         except Exception as erreur:
+            db.session.rollback()
             return False, [str(erreur)]
     
