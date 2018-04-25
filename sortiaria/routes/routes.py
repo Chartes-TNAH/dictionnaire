@@ -81,18 +81,18 @@ def delete(mot_id):
     """ Route permettant la suppression d'un mot
     :param mot_id: Identifiant numérique du mot
     """
-    unique_mot = Mot.query.get(mot_id)
 
     if request.method == "GET":
-        return render_template("pages/supprimer_mot.html", nom="Sortiaria", mot=unique_mot)
+        unique_mot = Mot.query.get(mot_id)
+        return render_template("pages/supprimer_mot.html", nom="Sortiaria" , mot=unique_mot)
     else:
         status = Mot.supprimer_mot(id=mot_id)
         if status is True :
             flash("Mot supprimé !", "success")
-            return redirect("/browse")
+            return redirect("/")
         else:
             flash("La suppression a échoué.", "danger")
-            return redirect("/mot" + str(mot_id))
+            return redirect("/mot/" + str(mot_id))
 
 @app.route("/mot/<int:mot_id>/tei")
 def export_tei(mot_id):

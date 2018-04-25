@@ -9,7 +9,7 @@ class Authorship(db.Model):
     authorship_id = db.Column(db.Integer, nullable=True, autoincrement=True, primary_key=True)
     authorship_mot_id = db.Column(db.Integer, db.ForeignKey('mot.mot_id'))
     authorship_user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
-    authorship_commentaire_id = db.Column(db.Integer, db.ForeignKey('commentaire.commentaire_id'))
+    commentaire_id = db.Column(db.Integer, db.ForeignKey('commentaire.commentaire_id'))
     authorship_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     user = db.relationship("User", back_populates="authorships")
     mot = db.relationship("Mot", back_populates="authorships")
@@ -136,21 +136,22 @@ class Mot(db.Model):
     def supprimer_mot(id):
         #Supprime un mot dans la base de données, retourne un booléen : True si la suppression a réussi, sinon False.
 
-        unique_mot = Mot.query.get(id)
-        coms = unique_mot.commentaires
+        mot = Mot.query.get(id)
+        coms = mot.commentaires
 
         try:
-                
-            db.session.delete(unique_mot)
-            db.session.commit()
 
             for com in coms:
                 db.session.delete(com)
                 db.session.commit()
 
+            db.session.delete(mot)
+            db.session.commit()
+
             return True
 
         except Exception as failed:
+            print(failed)
             return False
             db.session.rollback()
 
