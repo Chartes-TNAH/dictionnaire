@@ -9,7 +9,7 @@
 
 <div class="col-md container mt-3">
 				<div class="row">
-				<form class="col-3 mr-2 " method="POST" action="{{url_for('accueil')}}">
+				<form class="col-3 mr-2 " method="POST" action="{{url_for('delete', mot_id=mot.mot_id)}}">
 				<button type="submit" class="btn btn-success btn-sm">Confirmer la suppression du mot</button>
 				</form>
 				<form class="col-3 ml-2" method="GET" action="{{ url_for('mot', mot_id=mot.mot_id)}}">
