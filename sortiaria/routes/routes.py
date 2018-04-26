@@ -1,5 +1,6 @@
-from flask import render_template, request, flash, redirect
+from flask import render_template, request, flash, redirect, send_file
 
+import xml.etree.ElementTree as ET
 
 from ..app import app, login
 from ..modeles.donnees import Mot
@@ -26,8 +27,8 @@ def mot(mot_id):
     # Ce qui suit permet d'afficher le mot, les commentaires et les auteurs des commentaires
     unique_mot = Mot.query.get(mot_id)
     coms = unique_mot.commentaires
-    auteurs = coms.authorships
-    return render_template("pages/mot.html", nom="Sortiaria", mot=unique_mot, coms=coms, auteurs=auteurs)
+    #auteurs = coms.authorships
+    return render_template("pages/mot.html", nom="Sortiaria", mot=unique_mot, coms=coms) #auteurs=auteurs
 
 @app.route("/mot/<int:mot_id>/modif_mot", methods=["GET", "POST"])
 def modif_mot(mot_id):
@@ -102,7 +103,48 @@ def export_tei(mot_id):
     """
     unique_mot = Mot.query.get(mot_id)
     coms = unique_mot.commentaires
-    return render_template("pages/export_tei.html", nom="Sortiaria", mot=unique_mot, coms=coms)
+
+    TEI = ET.Element('TEI')
+    TEI.set('xmlns','http://www.tei-c.org/ns/1.0')
+    teiHeader = ET.SubElement(TEI, 'teiHeader')
+    fileDesc = ET.SubElement(teiHeader, 'fileDesc')
+    titleStmt = ET.SubElement(fileDesc, 'titleStmt')
+    title = ET.SubElement(titleStmt, 'title')
+    title.text = unique_mot.mot_terme
+    publicationStmt = ET.SubElement(teiHeader, 'publicationStmt')
+    p = ET.SubElement(publicationStmt, 'p')
+    p.text = 'Sortiaria est un dictionnaire en ligne développé par Marie-Laurence Bonhomme, Léa Frering, Armâne Magnier et Alyx Taounza-Jeminet en Master 2 Technologies numériques appliquées à l\'histoire à l\'École nationale des chartes'
+    text = ET.SubElement(TEI, 'text')
+    body = ET.SubElement(text, 'body')
+    entry = ET.SubElement(body, 'entry')
+    form = ET.SubElement(entry, 'form')
+    orth = ET.SubElement(form, 'orth')
+    orth.text = unique_mot.mot_terme
+    pron = ET.SubElement(form, 'pron')
+    pron.text = unique_mot.mot_phon
+    gramGrp = ET.SubElement(entry, 'gramGrp')
+    pos = ET.SubElement(gramGrp, 'pos')
+    pos.text = unique_mot.mot_gram
+    gen = ET.SubElement(gramGrp, 'gen')
+    gen.text = unique_mot.mot_genre
+    sense = ET.SubElement(entry, 'sense') 
+    defn = ET.SubElement(sense, 'def')
+    defn.text = unique_mot.mot_def 
+    for com in coms:
+        note = ET.SubElement(entry, 'note')  
+        label = ET.SubElement(note, 'label')
+        label.text = com.commentaire_titre
+        p = ET.SubElement(note, 'p')
+        p.text = com.commentaire_texte
+        if com.commentaire_source:
+            bibl = ET.SubElement(note, 'bibl')
+            bibl.text = com.commentaire_source
+
+    myTEI = ET.tostring(TEI, encoding='unicode')
+    myfile = open("sortiaria/temp/export_tei.xml", "w")
+    myfile.write('<?xml version=\"1.0\" encoding=\"UTF-8\"?> <?xml-model href=\"http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng\" type=\"application/xml\" schematypens=\"http://relaxng.org/ns/structure/1.0\"?> <?xml-model href=\"http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng\" type=\"application/xml\" schematypens=\"http://purl.oclc.org/dsdl/schematron\"?>' + str(myTEI))
+
+    return send_file("temp/export_tei.xml", attachment_filename="export_tei.xml")
 
 @app.route("/mot/<int:mot_id>/commentaire", methods=["GET", "POST"])
 def ajout_commentaire(mot_id):
