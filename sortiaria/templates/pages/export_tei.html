@@ -30,7 +30,13 @@
                <gen>{{ mot.mot_genre }}</gen>
             </gramGrp>
             <sense><def>{{ mot.mot_def }}</def></sense>
-            <note>{{ commentaire }}</note>
+{% for com in coms %}
+            <note>
+                <label>{{ com.commentaire_titre }}</label>
+                <p>{{ com.commentaire_texte }}</p>
+                {% if com.commentaire_source %}<bibl>{{ com.commentaire_source }}</bibl>{% endif %}           
+            </note>
+{% endfor %}
          </entry>
       </body>
    </text>
