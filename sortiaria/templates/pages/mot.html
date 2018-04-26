@@ -24,6 +24,11 @@
 	{% if com.commentaire_source %}
 	<br/><b>source : </b>{{com.commentaire_source}}
 	{% endif %}</p>
+    {% for auteur in auteurs %}
+        {% if auteur.user.user_login %}
+        <b>auteur : </b>{{auteur.user.user_login}}
+        {% endif %}
+    {% endfor %}    
 {% endfor %}
 {% endif %}
 

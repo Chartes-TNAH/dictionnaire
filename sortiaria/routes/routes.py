@@ -23,10 +23,11 @@ def mot(mot_id):
     """ Route permettant l'affichage des données d'un mot
     :param mot_id: Identifiant numérique du mot
     """
-    # On a bien sûr aussi modifié le template pour refléter le changement
+    # Ce qui suit permet d'afficher le mot, les commentaires et les auteurs des commentaires
     unique_mot = Mot.query.get(mot_id)
     coms = unique_mot.commentaires
-    return render_template("pages/mot.html", nom="Sortiaria", mot=unique_mot, coms=coms)
+    auteurs = coms.authorships
+    return render_template("pages/mot.html", nom="Sortiaria", mot=unique_mot, coms=coms, auteurs=auteurs)
 
 @app.route("/mot/<int:mot_id>/modif_mot", methods=["GET", "POST"])
 def modif_mot(mot_id):
@@ -115,6 +116,7 @@ def ajout_commentaire(mot_id):
             texte=request.form.get("texte", None),
             source=request.form.get("source", None),
             c_mot_id=request.form.get("mot_id", None),
+            auteur=request.form.get("authorship", None)
         )
         if statut is True:
             flash("Commentaire enregistré !", "success")
@@ -122,9 +124,12 @@ def ajout_commentaire(mot_id):
         else:
             flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "error")
             unique_mot = Mot.query.get(mot_id)
-            return render_template("pages/ajout_commentaire.html", mot=unique_mot)
+            # ce qui suit permet de rapatrier automatiquement l'auteur du commentaire dans le formulaire d'ajout de commentaire.    
+            auteurs = coms.authorships
+            return render_template("pages/ajout_commentaire.html", mot=unique_mot, auteurs=auteurs)
     unique_mot = Mot.query.get(mot_id)
-    return render_template("pages/ajout_commentaire.html", nom="Sortiaria", mot=unique_mot)
+    auteurs = coms.authorships
+    return render_template("pages/ajout_commentaire.html", nom="Sortiaria", mot=unique_mot, auteurs=auteurs)
 
 @app.route("/recherche")
 def recherche():
