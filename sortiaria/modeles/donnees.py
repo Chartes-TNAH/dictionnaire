@@ -193,7 +193,7 @@ class Commentaire(db.Model):
      
     
     @staticmethod
-    # ce qui suit sert à ajouter un commentaire (par les utilisateurs) avec le nom de l'auteur déjà renseigné
+    # ce qui suit sert à ajouter un commentaire
     def ajout_commentaire(titre, source, texte, c_mot_id):
 
         mot=Mot.query.get(id)
@@ -214,7 +214,6 @@ class Commentaire(db.Model):
             commentaire_source=source,
             commentaire_texte=texte,
             commentaire_mot_id=c_mot_id,
-            authorship=auteur,
         )
         print(commentaire)
         try:
