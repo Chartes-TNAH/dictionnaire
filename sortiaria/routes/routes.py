@@ -3,8 +3,7 @@ from flask import render_template, request, flash, redirect, send_file
 import xml.etree.ElementTree as ET
 
 from ..app import app, login
-from ..modeles.donnees import Mot
-from ..modeles.donnees import Commentaire
+from ..modeles.donnees import Mot, Commentaire, Authorship
 from ..modeles.utilisateurs import User
 from ..constantes import MOTS_PAR_PAGE
 from flask_login import login_user, current_user, logout_user
@@ -27,8 +26,15 @@ def mot(mot_id):
     # Ce qui suit permet d'afficher le mot, les commentaires et les auteurs des commentaires
     unique_mot = Mot.query.get(mot_id)
     coms = unique_mot.commentaires
-    #auteurs = coms.authorships
-    return render_template("pages/mot.html", nom="Sortiaria", mot=unique_mot, coms=coms) #auteurs=auteurs
+    a = Commentaire.query.filter(Commentaire.commentaire_mot_id == mot_id).all()
+    for x in a:
+        unique_com = Commentaire.query.get(x.commentaire_id)
+        print(type(unique_com))
+        auths = unique_com.query.filter(unique_com.commentaire_id == Authorship.commentaire_id).all
+        print(auths)
+
+
+    return render_template("pages/mot.html", nom="Sortiaria", mot=unique_mot, coms=coms)
 
 @app.route("/mot/<int:mot_id>/modif_mot", methods=["GET", "POST"])
 def modif_mot(mot_id):
@@ -157,8 +163,7 @@ def ajout_commentaire(mot_id):
             titre=request.form.get("titre", None),
             texte=request.form.get("texte", None),
             source=request.form.get("source", None),
-            c_mot_id=request.form.get("mot_id", None),
-            auteur=request.form.get("authorship", None)
+            c_mot_id=mot_id
         )
         if statut is True:
             flash("Commentaire enregistré !", "success")
@@ -166,12 +171,10 @@ def ajout_commentaire(mot_id):
         else:
             flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "error")
             unique_mot = Mot.query.get(mot_id)
-            # ce qui suit permet de rapatrier automatiquement l'auteur du commentaire dans le formulaire d'ajout de commentaire.    
-            auteurs = coms.authorships
-            return render_template("pages/ajout_commentaire.html", mot=unique_mot, auteurs=auteurs)
+            # ce qui suit permet de rapatrier automatiquement l'auteur du commentaire dans le formulaire d'ajout de commentaire.  
+            return render_template("pages/ajout_commentaire.html", mot=unique_mot)
     unique_mot = Mot.query.get(mot_id)
-    auteurs = coms.authorships
-    return render_template("pages/ajout_commentaire.html", nom="Sortiaria", mot=unique_mot, auteurs=auteurs)
+    return render_template("pages/ajout_commentaire.html", nom="Sortiaria", mot=unique_mot)
 
 @app.route("/recherche")
 def recherche():
