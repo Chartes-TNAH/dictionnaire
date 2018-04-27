@@ -1,6 +1,6 @@
 from flask import url_for
 import datetime
-
+from flask_login import current_user
 from .. app import db
 
 
@@ -21,6 +21,35 @@ class Authorship(db.Model):
             "on": self.authorship_date
         }
 
+    @staticmethod
+    def m_authorship(authored):
+        """" méthode pour associer la création ou modification d'un mot à un utilisateur """
+        lien = Authorship(
+            authorship_user_id=current_user.get_id(),
+            authorship_mot_id=authored.mot_id
+            )
+        try:
+            db.session.add(lien)
+            db.session.commit()
+            return True
+        except Exception as erreur:
+            return False, [str(erreur)]
+            db.sessions.rollback()
+
+    @staticmethod
+    def c_authorship(authored):
+        """" méthode pour associer la création ou modification d'un commentaire à un utilisateur """
+        lien = Authorship(
+            authorship_user_id=current_user.get_id(),
+            commentaire_id=authored.commentaire_id
+            )
+        try:
+            db.session.add(lien)
+            db.session.commit()
+            return True
+        except Exception as erreur:
+            return False, [str(erreur)]
+            db.sessions.rollback()        
 
 # On crée notre modèle de mot
 class Mot(db.Model):
@@ -89,11 +118,17 @@ class Mot(db.Model):
             # On envoie le paquet
             db.session.commit()
 
+            authoring = Mot.query.get(mot_id)
+            authorship = Authorship.m_authorship(
+                authored = authoring
+            )
+
             # On renvoie l'utilisateur
             return True, mot
 
         except Exception as erreur:
             return False, [str(erreur)]
+            db.sessions.rollback()
 
     @staticmethod
     def modif_mot(id, terme, definition, grammaire, genre, prononciation):
@@ -125,6 +160,11 @@ class Mot(db.Model):
             db.session.add(mot)
             # On envoie le paquet
             db.session.commit()
+
+            authoring = Mot.query.get(mot_id)
+            authorship = Authorship.m_authorship(
+                authored = authoring
+            )
 
             # On renvoie l'utilisateur
             return True, mot
@@ -221,6 +261,12 @@ class Commentaire(db.Model):
             db.session.add(commentaire)
             # On envoie le paquet
             db.session.commit()
+
+            authoring = Commentaire.query.get(commentaire_id)
+            authorship = Authorship.c_authorship(
+                authored = authoring
+            )        
+
 
             # On renvoie l'utilisateur
             return True, mot
