@@ -8,14 +8,22 @@ from ..modeles.utilisateurs import User
 from ..constantes import MOTS_PAR_PAGE
 from flask_login import login_user, current_user, logout_user
 
+#############################################################
+#                   GENERALITES                             #
+#############################################################
+
 
 @app.route("/", methods=["GET", "POST"])
 def accueil():
     """ Route permettant l'affichage d'une page accueil
     """
-    # On a bien sûr aussi modifié le template pour refléter le changement
-    mots = Mot.query.all()
+    mots = Mot.query.order_by(Mot.mot_terme).all()
     return render_template("pages/accueil.html", nom="Sortiaria", mots=mots)
+
+
+#############################################################
+#               PAGES CONCERNANT LES MOTS                   #
+#############################################################
 
 
 @app.route("/mot/<int:mot_id>")
@@ -24,6 +32,7 @@ def mot(mot_id):
     :param mot_id: Identifiant numérique du mot
     """
     # Ce qui suit permet d'afficher le mot, les commentaires et les auteurs des commentaires
+    # On récupère l'identifiant du mot et les commentaires associés au mot
     unique_mot = Mot.query.get(mot_id)
     coms = unique_mot.commentaires
     a = Commentaire.query.filter(Commentaire.commentaire_mot_id == mot_id).all()
@@ -41,7 +50,7 @@ def modif_mot(mot_id):
     """ Route permettant des modifier les données d'un mot
     :param mot_id: Identifiant numérique du mot
     """
-    # On a bien sûr aussi modifié le template pour refléter le changement
+    
     unique_mot = Mot.query.get(mot_id)
     if request.method == "POST":
         status, donnees = Mot.modif_mot(
@@ -66,8 +75,7 @@ def modif_mot(mot_id):
 @app.route("/contribuer", methods=["GET", "POST"])
 def ajout_mot():
     # Route permettant d'ajouter des entrées 
-    
-    # Si on est en POST, cela veut dire que le formulaire a été envoyé
+    # Il n'y a pas de paramètre comme mot_id puisque le mot n'existe pas encore
     if request.method == "POST":
         statut, donnees = Mot.creer_mot(
             terme=request.form.get("mot", None),
@@ -107,8 +115,10 @@ def export_tei(mot_id):
     """ Route permettant l'affichage des données d'un mot en TEI
     :param mot_id: Identifiant numérique du mot
     """
+    # on récupère l'identifiant du mot et les commentaires associés au mot
     unique_mot = Mot.query.get(mot_id)
     coms = unique_mot.commentaires
+
 
     TEI = ET.Element('TEI')
     TEI.set('xmlns','http://www.tei-c.org/ns/1.0')
@@ -152,9 +162,14 @@ def export_tei(mot_id):
 
     return send_file("temp/export_tei.xml", attachment_filename="export_tei.xml")
 
+#############################################################
+#            PAGES CONCERNANT LES COMMENTAIRES              #
+#############################################################
+
+
 @app.route("/mot/<int:mot_id>/commentaire", methods=["GET", "POST"])
 def ajout_commentaire(mot_id):
-    """ Route permettant l'ajout d'un commentaire sur un mot
+    """ Route permettant l'ajout d'un commentaire sur un mot en particulier
     :param mot_id: Identifiant numérique du mot
     """
 
@@ -171,7 +186,6 @@ def ajout_commentaire(mot_id):
         else:
             flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "error")
             unique_mot = Mot.query.get(mot_id)
-            # ce qui suit permet de rapatrier automatiquement l'auteur du commentaire dans le formulaire d'ajout de commentaire.  
             return render_template("pages/ajout_commentaire.html", mot=unique_mot)
     unique_mot = Mot.query.get(mot_id)
     return render_template("pages/ajout_commentaire.html", nom="Sortiaria", mot=unique_mot)
@@ -180,8 +194,7 @@ def ajout_commentaire(mot_id):
 def recherche():
     """ Route permettant la recherche plein-texte
     """
-    # On préfèrera l'utilisation de .get() ici
-    #   qui nous permet d'éviter un if long (if "clef" in dictionnaire and dictonnaire["clef"])
+    
     motclef = request.args.get("keyword", None)
     page = request.args.get("page", 1)
 
@@ -194,7 +207,7 @@ def recherche():
     #   si on n'a pas de mot clé)
     resultats = []
 
-    # On fait de même pour le titre de la page
+    # Cherche les mots clefs dans le terme et la définition des mots
     titre = "Recherche"
     if motclef:
         resultats = Mot.query.filter(db.or_(Mot.mot_terme.like("%{}%".format(motclef)),
@@ -212,10 +225,9 @@ def recherche():
 
 @app.route("/browse")
 def browse():
-    """ Route permettant la navigation
+    """ Route permettant la navigation. Affiche la liste de tous les mots présents par ordre alphabétique. 
     """
-    # On préfèrera l'utilisation de .get() ici
-    #   qui nous permet d'éviter un if long (if "clef" in dictionnaire and dictonnaire["clef"])
+    
     page = request.args.get("page", 1)
 
     if isinstance(page, str) and page.isdigit():
@@ -223,12 +235,16 @@ def browse():
     else:
         page = 1
 
-    resultats = Mot.query.paginate(page=page, per_page=MOTS_PAR_PAGE)
+    resultats = Mot.query.order_by(Mot.mot_terme).paginate(page=page, per_page=MOTS_PAR_PAGE)
 
     return render_template(
         "pages/browse.html",
         resultats=resultats
     )
+
+#############################################################
+#      PAGES CONCERNANT LA GESTION DES UTILISATEURS         #
+#############################################################
 
 @app.route("/register", methods=["GET", "POST"])
 def inscription():
