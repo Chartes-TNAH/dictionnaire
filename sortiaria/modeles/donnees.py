@@ -3,6 +3,9 @@ import datetime
 from flask_login import current_user
 from .. app import db
 
+#############################################################
+#            AUTHORSHIP ET METHODES ASSOCIEES               #
+#############################################################
 
 class Authorship(db.Model):
     __tablename__ = "authorship"
@@ -51,6 +54,10 @@ class Authorship(db.Model):
             return False, [str(erreur)]
             db.sessions.rollback()        
 
+#############################################################
+#                MOT ET METHODES ASSOCIEES                  #                 
+#############################################################
+
 # On crée notre modèle de mot
 class Mot(db.Model):
     __tablename__ = "mot"
@@ -64,9 +71,6 @@ class Mot(db.Model):
     commentaires = db.relationship("Commentaire", back_populates="mot")
 
     def to_jsonapi_dict(self):
-        """ It ressembles a little JSON API format but it is not completely compatible
-        :return:
-        """
         return {
             "type": "mot",
             "id": self.mot_id,
@@ -91,7 +95,10 @@ class Mot(db.Model):
                 
     @staticmethod
     def creer_mot(terme, definition, grammaire, genre, prononciation):
-        # ce qui suit sert à ajouter un mot (par les utilisateurs)
+        '''
+            Fonction qui sert à ajouter un mot (par les utilisateurs).
+            Permet de connaître l'auteur du mot. 
+        '''    
         erreurs = []
         if not terme:
             erreurs.append("Le terme est obligatoire")
@@ -122,6 +129,7 @@ class Mot(db.Model):
             # On envoie le paquet
             db.session.commit()
 
+            # On crée le log dans authorship pour savoir qui a créé le mot
             authoring = mot.mot_id
             authorship = Authorship.m_authorship(
                 authored = authoring
@@ -136,8 +144,9 @@ class Mot(db.Model):
 
     @staticmethod
     def modif_mot(id, terme, definition, grammaire, genre, prononciation):
-        #ce qui suit permet à l'utilisateur de modifier un mot
-
+        '''
+            Fonction qui permet à l'utilisateur de modifier un mot
+        '''
         mot = Mot.query.get(mot_id)
         print(type(mot))
         erreurs = []
@@ -165,6 +174,7 @@ class Mot(db.Model):
             # On envoie le paquet
             db.session.commit()
 
+            # On crée le log dans authorship pour savoir qui a modifié le mot
             authoring = mot.mot_id
             authorship = Authorship.m_authorship(
                 authored = authoring
@@ -178,15 +188,21 @@ class Mot(db.Model):
 
     @staticmethod
     def supprimer_mot(id):
-        #Supprime un mot dans la base de données, retourne un booléen : True si la suppression a réussi, sinon False.
+        # Supprime un mot dans la base de données, retourne un booléen : True si la suppression a réussi, sinon False.
+        # Supprime aussi les commentaires et les authorships associés.
 
         mot = Mot.query.get(id)
         coms = mot.commentaires
+        auths = mot.authorships
 
         try:
 
             for com in coms:
                 db.session.delete(com)
+                db.session.commit()
+
+            for auth in auths:
+                db.session.delete(auth)  
                 db.session.commit()
 
             db.session.delete(mot)
@@ -198,6 +214,11 @@ class Mot(db.Model):
             print(failed)
             return False
             db.session.rollback()
+
+
+#############################################################
+#          COMMENTAIRE ET METHODES ASSOCIEES                #
+#############################################################
 
 # On crée notre modèle de commentaire           
 class Commentaire(db.Model):
@@ -211,9 +232,6 @@ class Commentaire(db.Model):
     mot = db.relationship("Mot", back_populates="commentaires")
 
     def to_jsonapi_dict(self):
-        """ It ressembles a little JSON API format but it is not completely compatible
-        :return:
-        """
         return {
             "type": "commentaire",
             "id": self.commentaire_id,
@@ -237,8 +255,8 @@ class Commentaire(db.Model):
      
     
     @staticmethod
-    # ce qui suit sert à ajouter un commentaire
     def ajout_commentaire(titre, source, texte, c_mot_id):
+        # ce qui suit sert à ajouter un commentaire
 
         mot=Mot.query.get(id)
 
@@ -266,6 +284,7 @@ class Commentaire(db.Model):
             # On envoie le paquet
             db.session.commit()
 
+            # On crée le log dans authorship pour savoir qui a modifié le mot
             authoring = commentaire.commentaire_id
             authorship = Authorship.c_authorship(
                 authored = authoring
@@ -278,4 +297,68 @@ class Commentaire(db.Model):
         except Exception as erreur:
             db.session.rollback()
             return False, [str(erreur)]
-    
+
+
+    @staticmethod
+    def modifier_commentaire(com_id, titre, source, texte):
+        # Fonction qui permet de modifier un commentaire en particulier
+
+        commentaire = Commentaire.query.get(commentaire_id)
+
+        erreurs = []
+        if not titre:
+            erreurs.append("Le titre est obligatoire")
+        if not texte:
+            erreurs.append("Rédigez un commentaire")
+
+
+        # S'il y a une erreur ou plus
+        if len(erreurs) > 0:
+            print(erreurs, titre, texte)
+            return False, erreurs
+
+        commentaire.commentaire_id = com_id
+        commentaire.commentaire_titre = titre
+        commentaire.commentaire_texte = texte
+        commentaire.commentaire_source = source
+        
+        try:
+
+            # On l'ajoute au transport vers la base de données
+            db.session.add(commentaire)
+            # On envoie le paquet
+            db.session.commit()
+
+            # On crée le log dans authorship pour savoir qui a modifié le mot
+            authoring = commentaire.commentaire_id
+            authorship = Authorship.c_authorship(
+                authored = authoring
+            )
+
+            # On renvoie l'utilisateur
+            return True, mot
+
+        except Exception as erreur:
+            return False, [str(erreur)]
+
+    @staticmethod
+    def supprimer_commentaire(commentaire_id):
+        # Fonction qui permet de supprimer un commentaire en particulier sur un mot et l'auteur associé
+
+        com = Commentaire.query.get(commentaire_id)
+        auths = coms.authorships
+
+        try:
+
+            for auth in auths:
+                db.session.delete(auth)  
+                db.session.commit()
+
+            db.session.delete(com)
+            db.session.commit()
+            return True
+
+        except Exception as failed:
+            print(failed)
+            return False
+            db.session.rollback() 

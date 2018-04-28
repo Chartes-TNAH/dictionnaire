@@ -27,6 +27,8 @@
 {% for auteur in auths %}
         <b>auteur : </b>{{auteur.user.user_login}}
 {% endfor %}
+<a class="nav-link" href="{{url_for('modifier_commentaire', commentaire_id=com.commentaire_id)}}">Modifier le commentaire</a>
+<a class="nav-link" href="{{url_for('supprimer_commentaire', commentaire_id=com.commentaire_id)}}">Supprimer le commentaire</a>
 {% endfor %}
 {% endif %}
 
