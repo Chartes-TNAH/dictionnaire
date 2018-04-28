@@ -98,6 +98,10 @@ class Mot(db.Model):
         if not definition:
             erreurs.append("Il faut donner une définition au mot")
         
+        #on vérifie que le mot n'est pas déjà dans la base
+        mot_cree = Mot.query.filter(db.and_(Mot.mot_terme == terme)).count()
+        if mot_cree > 0:
+            erreurs.append("Le terme est déjà inscrit dans la base de données")
 
         # S'il y a une erreur ou plus
         if len(erreurs) > 0:
@@ -118,7 +122,7 @@ class Mot(db.Model):
             # On envoie le paquet
             db.session.commit()
 
-            authoring = Mot.query.get(mot_id)
+            authoring = Mot.query.filter(Mot.mot_id == mot_id ).one()
             authorship = Authorship.m_authorship(
                 authored = authoring
             )
@@ -134,8 +138,8 @@ class Mot(db.Model):
     def modif_mot(id, terme, definition, grammaire, genre, prononciation):
         #ce qui suit permet à l'utilisateur de modifier un mot
 
-        mot = Mot.query.get(id)
-
+        mot = Mot.query.get(mot_id)
+        print(type(mot))
         erreurs = []
         if not terme:
             erreurs.append("Le terme est obligatoire")
