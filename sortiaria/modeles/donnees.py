@@ -26,7 +26,7 @@ class Authorship(db.Model):
         """" méthode pour associer la création ou modification d'un mot à un utilisateur """
         lien = Authorship(
             authorship_user_id=current_user.get_id(),
-            authorship_mot_id=authored.mot_id
+            authorship_mot_id=authored
             )
         try:
             db.session.add(lien)
@@ -41,7 +41,7 @@ class Authorship(db.Model):
         """" méthode pour associer la création ou modification d'un commentaire à un utilisateur """
         lien = Authorship(
             authorship_user_id=current_user.get_id(),
-            commentaire_id=authored.commentaire_id
+            commentaire_id=authored
             )
         try:
             db.session.add(lien)
@@ -122,7 +122,7 @@ class Mot(db.Model):
             # On envoie le paquet
             db.session.commit()
 
-            authoring = Mot.query.filter(Mot.mot_id == mot_id ).one()
+            authoring = mot.mot_id
             authorship = Authorship.m_authorship(
                 authored = authoring
             )
@@ -132,7 +132,7 @@ class Mot(db.Model):
 
         except Exception as erreur:
             return False, [str(erreur)]
-            db.sessions.rollback()
+            db.session.rollback()
 
     @staticmethod
     def modif_mot(id, terme, definition, grammaire, genre, prononciation):
@@ -165,7 +165,7 @@ class Mot(db.Model):
             # On envoie le paquet
             db.session.commit()
 
-            authoring = Mot.query.get(mot_id)
+            authoring = mot.mot_id
             authorship = Authorship.m_authorship(
                 authored = authoring
             )
@@ -266,7 +266,7 @@ class Commentaire(db.Model):
             # On envoie le paquet
             db.session.commit()
 
-            authoring = Commentaire.query.get(commentaire_id)
+            authoring = commentaire.commentaire_id
             authorship = Authorship.c_authorship(
                 authored = authoring
             )        

@@ -57,9 +57,9 @@ DROP TABLE IF EXISTS `sortiaria`.`authorship` ;
 CREATE TABLE IF NOT EXISTS `sortiaria`.`authorship` (
   `authorship_id` INT NOT NULL AUTO_INCREMENT,
   `authorship_user_id` INT NOT NULL,
-  `authorship_mot_id` INT NOT NULL,
+  `authorship_mot_id` INT,
   `authorship_date` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
-  `commentaire_id` INT NOT NULL,
+  `commentaire_id` INT,
   PRIMARY KEY (`authorship_id`),
 
   INDEX `fk_authorship_1_idx` (`authorship_mot_id` ASC),
