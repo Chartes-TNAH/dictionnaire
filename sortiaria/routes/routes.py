@@ -2,7 +2,7 @@ from flask import render_template, request, flash, redirect, send_file
 
 import xml.etree.ElementTree as ET
 
-from ..app import app, login
+from ..app import app, login, db
 from ..modeles.donnees import Mot, Commentaire, Authorship
 from ..modeles.utilisateurs import User
 from ..constantes import MOTS_PAR_PAGE
@@ -197,21 +197,22 @@ def recherche():
     # On fait de même pour le titre de la page
     titre = "Recherche"
     if motclef:
-        resultats = Mot.query.filter(
-            Mot.mot_terme.like("%{}%".format(motclef))
+        resultats = Mot.query.filter(db.or_(Mot.mot_terme.like("%{}%".format(motclef)),
+            Mot.mot_def.like("%{}%".format(motclef)))
         ).paginate(page=page, per_page=MOTS_PAR_PAGE)
+        
         titre = "Résultat pour la recherche `" + motclef + "`"
 
-    return render_template(
-        "pages/recherche.html",
-        resultats=resultats,
-        titre=titre,
-        keyword=motclef
-    )
+        return render_template(
+            "pages/recherche.html",
+            resultats=resultats,
+            titre=titre,
+            keyword=motclef
+        )
 
 @app.route("/browse")
 def browse():
-    """ Route permettant la recherche plein-texte
+    """ Route permettant la navigation
     """
     # On préfèrera l'utilisation de .get() ici
     #   qui nous permet d'éviter un if long (if "clef" in dictionnaire and dictonnaire["clef"])
