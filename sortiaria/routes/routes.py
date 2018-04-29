@@ -34,9 +34,6 @@ def mot(mot_id):
     # Ce qui suit permet d'afficher le mot, les commentaires et les auteurs des commentaires
     # On récupère l'identifiant du mot et les commentaires associés au mot
     unique_mot = Mot.query.get(mot_id)
-    m_auths = unique_mot.authorships
-    u = User.query.filter(m_auths.Authorship.user_id == user_id).all()
-    print(type(u))
     coms = unique_mot.commentaires
     a = Commentaire.query.filter(Commentaire.commentaire_mot_id == mot_id).all()
     for x in a:
@@ -192,6 +189,55 @@ def ajout_commentaire(mot_id):
             return render_template("pages/ajout_commentaire.html", mot=unique_mot)
     unique_mot = Mot.query.get(mot_id)
     return render_template("pages/ajout_commentaire.html", nom="Sortiaria", mot=unique_mot)
+
+@app.route("/mot/<int:commentaire_id>/modifier_commentaire", methods=["GET", "POST"])
+def modifier_commentaire(commentaire_id):
+    """ Route permettant des modifier les données d'un commentaire
+    :param commentaire_id: Identifiant numérique du commentaire
+    """
+    commentaire = Commentaire.query.get(commentaire_id)
+
+    if request.method == "POST":
+        status, donnees = Commentaire.modifier_commentaire(
+            com_id = commentaire_id,
+            titre=request.form.get("titre", None),
+            texte=request.form.get("texte", None),
+            source=request.form.get("source", None),
+        )
+
+        if status is True :
+            flash("Merci pour votre contribution !", "success")
+            commentaire = Commentaire.query.get(commentaire_id)
+            return redirect("/browse")
+
+        else:
+            flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "error")
+            commentaire = Commentaire.query.get(commentaire_id)
+    return render_template("pages/modifier_commentaire.html", nom="Sortiaria", commentaire=commentaire)
+
+@app.route("/mot/<int:commentaire_id>/supprimer_commentaire", methods=["GET", "POST"])
+def supprimer_commentaire(commentaire_id):
+    """ Route permettant la suppression d'un commentaire
+    :param commentaire_id: Identifiant numérique du commentaire
+    """
+
+
+    if request.method == "GET":
+        commentaire = Commentaire.query.get(commentaire_id)
+        return render_template("pages/supprimer_commentaire.html", nom="Sortiaria" , commentaire=commentaire)
+    else:
+        status = Commentaire.supprimer_commentaire(id=commentaire_id)
+        if status is True :
+            flash("Commentaire supprimé !", "success")
+            return redirect("/")
+        else:
+            flash("La suppression a échoué.", "danger")
+            return redirect("/mot/" + str(mot_id))
+
+#############################################################
+#       PAGES SUR LA RECHERCHE ET LA NAVIGATION             #
+#############################################################
+
 
 @app.route("/recherche")
 def recherche():
