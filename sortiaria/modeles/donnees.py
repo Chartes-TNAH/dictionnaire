@@ -150,7 +150,6 @@ class Mot(db.Model):
         '''
             Fonction qui permet à l'utilisateur de modifier un mot
         '''
-        mot = Mot.query.get(mot_id)
         erreurs = []
         if not terme:
             erreurs.append("Le terme est obligatoire")

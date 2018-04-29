@@ -76,7 +76,7 @@ def modif_mot(mot_id):
         if status is True :
             flash("Merci pour votre contribution !", "success")
             unique_mot = Mot.query.get(mot_id)
-            return redirect("/browse")
+            return redirect("/mot/" + str(mot_id))
 
         else:
             flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "error")
