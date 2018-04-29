@@ -144,17 +144,13 @@ class Mot(db.Model):
 
     @staticmethod
     def modif_mot(id, terme, definition, grammaire, genre, prononciation):
-<<<<<<< HEAD
         #ce qui suit permet à l'utilisateur de modifier un mot
 
         mot = Mot.query.get(id)
-=======
         '''
             Fonction qui permet à l'utilisateur de modifier un mot
         '''
         mot = Mot.query.get(mot_id)
->>>>>>> d9627609f5c8dd6febfa6d3e55b36f8a90e725e8
-        print(type(mot))
         erreurs = []
         if not terme:
             erreurs.append("Le terme est obligatoire")

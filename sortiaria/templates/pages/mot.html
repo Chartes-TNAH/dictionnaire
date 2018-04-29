@@ -14,11 +14,9 @@
 		<br/>{{mot.mot_genre}}
 	{% endif %}
 {% if mot.authorships %}
-    {% for m_auth in m_auths %}
-        {% for auteur in m_auts %}
-        <br/><b>auteur : </b>{{auteur.user_nom}}
+        {% for auteur in m_auteurs %}
+        <br/><b>auteur : </b>{{auteur}}
         {% endfor %}
-    {% endfor %}
 {% endif %}
 </p>
         <dl>
@@ -31,14 +29,13 @@
 	{% if com.commentaire_source %}
 	<br/><b>source : </b>{{com.commentaire_source}}
 	{% endif %}</p>
-<<<<<<< HEAD
-=======
-{% for auteur in auths %}
-        <b>auteur : </b>{{auteur.user.user_login}}
-{% endfor %}
+{% if com.authorships %}
+    {% for auteur in c_auteurs %}
+        <b>auteur : </b>{{auteur}}
+    {% endfor %}
+{% endif %}
 <a class="nav-link" href="{{url_for('modifier_commentaire', commentaire_id=com.commentaire_id)}}">Modifier le commentaire</a>
 <a class="nav-link" href="{{url_for('supprimer_commentaire', commentaire_id=com.commentaire_id)}}">Supprimer le commentaire</a>
->>>>>>> d9627609f5c8dd6febfa6d3e55b36f8a90e725e8
 {% endfor %}
 {% endif %}
 
