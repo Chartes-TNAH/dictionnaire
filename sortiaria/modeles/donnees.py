@@ -301,10 +301,10 @@ class Commentaire(db.Model):
 
 
     @staticmethod
-    def modifier_commentaire(com_id, titre, source, texte):
+    def modifier_commentaire(id, titre, source, texte):
         # Fonction qui permet de modifier un commentaire en particulier
 
-        commentaire = Commentaire.query.get(commentaire_id)
+        commentaire = Commentaire.query.get(id)
 
         erreurs = []
         if not titre:
@@ -318,7 +318,6 @@ class Commentaire(db.Model):
             print(erreurs, titre, texte)
             return False, erreurs
 
-        commentaire.commentaire_id = com_id
         commentaire.commentaire_titre = titre
         commentaire.commentaire_texte = texte
         commentaire.commentaire_source = source
@@ -337,7 +336,7 @@ class Commentaire(db.Model):
             )
 
             # On renvoie l'utilisateur
-            return True, mot
+            return True, commentaire
 
         except Exception as erreur:
             return False, [str(erreur)]
@@ -347,7 +346,7 @@ class Commentaire(db.Model):
         # Fonction qui permet de supprimer un commentaire en particulier sur un mot et l'auteur associé
 
         com = Commentaire.query.get(commentaire_id)
-        auths = coms.authorships
+        auths = com.authorships
 
         try:
 
