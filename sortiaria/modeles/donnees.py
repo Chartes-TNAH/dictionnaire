@@ -138,7 +138,7 @@ class Mot(db.Model):
     def modif_mot(id, terme, definition, grammaire, genre, prononciation):
         #ce qui suit permet à l'utilisateur de modifier un mot
 
-        mot = Mot.query.get(mot_id)
+        mot = Mot.query.get(id)
         print(type(mot))
         erreurs = []
         if not terme:

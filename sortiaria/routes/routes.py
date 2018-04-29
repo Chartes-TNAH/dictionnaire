@@ -34,6 +34,9 @@ def mot(mot_id):
     # Ce qui suit permet d'afficher le mot, les commentaires et les auteurs des commentaires
     # On récupère l'identifiant du mot et les commentaires associés au mot
     unique_mot = Mot.query.get(mot_id)
+    m_auths = unique_mot.authorships
+    u = User.query.filter(m_auths.Authorship.user_id == user_id).all()
+    print(type(u))
     coms = unique_mot.commentaires
     a = Commentaire.query.filter(Commentaire.commentaire_mot_id == mot_id).all()
     for x in a:
@@ -43,7 +46,7 @@ def mot(mot_id):
         print(auths)
 
 
-    return render_template("pages/mot.html", nom="Sortiaria", mot=unique_mot, coms=coms)
+    return render_template("pages/mot.html", nom="Sortiaria", mot=unique_mot, coms=coms, m_auths=m_auths, m_auts=m_auts)
 
 @app.route("/mot/<int:mot_id>/modif_mot", methods=["GET", "POST"])
 def modif_mot(mot_id):

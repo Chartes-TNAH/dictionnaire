@@ -13,6 +13,13 @@
 	{% if mot.mot_genre %}
 		<br/>{{mot.mot_genre}}
 	{% endif %}
+{% if mot.authorships %}
+    {% for m_auth in m_auths %}
+        {% for auteur in m_auts %}
+        <br/><b>auteur : </b>{{auteur.user_nom}}
+        {% endfor %}
+    {% endfor %}
+{% endif %}
 </p>
         <dl>
             <dt>Définition</dt><dd>{{mot.mot_def}}</dd>
@@ -24,9 +31,6 @@
 	{% if com.commentaire_source %}
 	<br/><b>source : </b>{{com.commentaire_source}}
 	{% endif %}</p>
-{% for auteur in auths %}
-        <b>auteur : </b>{{auteur.user.user_login}}
-{% endfor %}
 {% endfor %}
 {% endif %}
 
