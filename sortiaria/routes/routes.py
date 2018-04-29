@@ -203,28 +203,28 @@ def ajout_commentaire(mot_id):
 
 @app.route("/mot/<int:commentaire_id>/modifier_commentaire", methods=["GET", "POST"])
 def modifier_commentaire(commentaire_id):
-    """ Route permettant des modifier les données d'un commentaire
+	""" Route permettant des modifier les données d'un commentaire
     :param commentaire_id: Identifiant numérique du commentaire
     """
-    commentaire = Commentaire.query.get(commentaire_id)
 
-    if request.method == "POST":
-        status, donnees = Commentaire.modifier_commentaire(
-            com_id = commentaire_id,
-            titre=request.form.get("titre", None),
-            texte=request.form.get("texte", None),
-            source=request.form.get("source", None),
-        )
+	if request.method == "POST":
+		status, donnees = Commentaire.modifier_commentaire(
+			id = commentaire_id,
+			titre=request.form.get("titre", None),
+			texte=request.form.get("texte", None),
+			source=request.form.get("source", None),
+		)
 
-        if status is True :
-            flash("Merci pour votre contribution !", "success")
-            commentaire = Commentaire.query.get(commentaire_id)
-            return redirect("/browse")
-
-        else:
-            flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "error")
-            commentaire = Commentaire.query.get(commentaire_id)
-    return render_template("pages/modifier_commentaire.html", nom="Sortiaria", commentaire=commentaire)
+		if status is True :
+			flash("Merci pour votre contribution !", "success")
+			commentaire = Commentaire.query.get(commentaire_id)
+			return redirect("/browse")
+		
+		else:
+			flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "error")
+			commentaire = Commentaire.query.get(commentaire_id)
+	commentaire = Commentaire.query.get(commentaire_id)		
+	return render_template("pages/modifier_commentaire.html", nom="Sortiaria", commentaire=commentaire)
 
 @app.route("/mot/<int:commentaire_id>/supprimer_commentaire", methods=["GET", "POST"])
 def supprimer_commentaire(commentaire_id):
@@ -237,7 +237,7 @@ def supprimer_commentaire(commentaire_id):
         commentaire = Commentaire.query.get(commentaire_id)
         return render_template("pages/supprimer_commentaire.html", nom="Sortiaria" , commentaire=commentaire)
     else:
-        status = Commentaire.supprimer_commentaire(id=commentaire_id)
+        status = Commentaire.supprimer_commentaire(commentaire_id)
         if status is True :
             flash("Commentaire supprimé !", "success")
             return redirect("/")
