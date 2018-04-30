@@ -6,6 +6,7 @@
 
 {% block corps %}
     {% if mot %}
+    <br/>
         <h1>{{mot.mot_terme}}</h1>
 	<p>{% if mot.mot_phon %}/{{mot.mot_phon}}/<br/>{% endif %}
 
@@ -23,6 +24,7 @@
         <dl>
             <dt>Définition</dt><dd>{{mot.mot_def}}</dd>
         {% if mot.commentaires %}
+        <br/>
 	<h4>Commentaires</h4>
             {% for com in coms %}
 	<p><b>{{com.commentaire_titre}}</b>
@@ -50,6 +52,7 @@
         <p>La base de données est en cours de constitution</p>
 {% endif %}
     {% if current_user.is_authenticated %}
+    <br/>
         <div class="col-md container mt-3">
         <div class="row">
         <a class="nav-link" href="{{url_for('modif_mot', mot_id=mot.mot_id)}}"><button class="btn btn-info" type="submit">Editer</button></a>
