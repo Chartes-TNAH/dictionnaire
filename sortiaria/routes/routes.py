@@ -16,8 +16,10 @@ from flask_login import login_user, current_user, logout_user
 @app.route("/", methods=["GET", "POST"])
 def accueil():
     """ Route permettant l'affichage d'une page accueil
+        :return: une liste des derniers mots enregistrés et ce dans l'ordre alphabétique
     """
-    mots = Mot.query.order_by(Mot.mot_terme).all()
+    mots = Mot.query.order_by(Mot.mot_terme).join(Mot.authorships).order_by(Authorship.authorship_date).limit(5).all()
+
     return render_template("pages/accueil.html", nom="Sortiaria", mots=mots)
 
 
