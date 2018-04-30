@@ -3511,7 +3511,7 @@ tbody.collapse.show {
 
 .nav-link {
   display: block;
-  padding: 0.5rem 1rem;
+  padding: 0rem 1rem;
 }
 
 .nav-link:focus, .nav-link:hover {
@@ -6946,7 +6946,10 @@ a.bg-dark:focus, a.bg-dark:hover {
   margin: 1rem !important;
 }
 
-.mt-3,
+.mt-3 {
+  margin-top: 0.2rem !important;
+  display: inline !important;
+}
 .my-3 {
   margin-top: 1rem !important;
 }

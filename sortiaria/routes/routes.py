@@ -43,18 +43,15 @@ def mot(mot_id):
         m_auteurs.append(m_aut_name)
 
     coms = unique_mot.commentaires
-    a = Commentaire.query.filter(Commentaire.commentaire_mot_id == mot_id).all()
-    c_auteurs = []
-    for x in a:
-        unique_com = Commentaire.query.get(x.commentaire_id)
+    c_auths_2 = []
+    for com in coms:
+        unique_com = Commentaire.query.get(com.commentaire_id)
         c_auths = unique_com.authorships
         for c_auth in c_auths:
-            c_auts = c_auth.user
-            c_aut_name = c_auts.user_nom
-            c_auteurs.append(c_aut_name)
-    print(c_auteurs)
+            if [c_auth.user.user_nom, com.commentaire_id] not in c_auths_2:
+               c_auths_2.append([c_auth.user.user_nom, com.commentaire_id])
 
-    return render_template("pages/mot.html", nom="Sortiaria", mot=unique_mot, coms=coms, m_auteurs=m_auteurs, c_auteurs=c_auteurs)
+    return render_template("pages/mot.html", nom="Sortiaria", mot=unique_mot, coms=coms, m_auteurs=m_auteurs, c_auths=c_auths_2)
 
 @app.route("/mot/<int:mot_id>/modif_mot", methods=["GET", "POST"])
 def modif_mot(mot_id):
