@@ -19,6 +19,8 @@
             {% for auteur in m_auteurs %}
             {{auteur}}, 
             {% endfor %}
+        {% else %}
+<br/><b>auteur : </b>admin
         {% endif %}
 </p>
         <dl>
@@ -39,6 +41,8 @@
         {{pair[0]}}, 
                     {% endif %}
                     {% endfor %}
+{% else %}
+<br/><b>auteur : </b>admin
                  {% endif %}
 
     <div class="row"><a class="nav-link" href="{{url_for('modifier_commentaire', commentaire_id=com.commentaire_id)}}" data-toggle="tooltip" title="Modifer le commentaire"><button class="btn btn-sm btn-info" type="submit">Modifier</button></a>

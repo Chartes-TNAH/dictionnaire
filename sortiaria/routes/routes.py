@@ -1,4 +1,4 @@
-from flask import render_template, request, flash, redirect, send_file
+from flask import render_template, request, flash, redirect, send_file, Response
 
 import xml.etree.ElementTree as ET
 
@@ -167,10 +167,9 @@ def export_tei(mot_id):
             bibl.text = com.commentaire_source
 
     myTEI = ET.tostring(TEI, encoding='unicode')
-    myfile = open("sortiaria/temp/export_tei.xml", "w")
-    myfile.write('<?xml version=\"1.0\" encoding=\"UTF-8\"?> <?xml-model href=\"http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng\" type=\"application/xml\" schematypens=\"http://relaxng.org/ns/structure/1.0\"?> <?xml-model href=\"http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng\" type=\"application/xml\" schematypens=\"http://purl.oclc.org/dsdl/schematron\"?>' + str(myTEI))
+    theTEI = '<?xml version=\"1.0\" encoding=\"UTF-8\"?> <?xml-model href=\"http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng\" type=\"application/xml\" schematypens=\"http://relaxng.org/ns/structure/1.0\"?> <?xml-model href=\"http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng\" type=\"application/xml\" schematypens=\"http://purl.oclc.org/dsdl/schematron\"?>' + str(myTEI)
 
-    return send_file("temp/export_tei.xml", attachment_filename="export_tei.xml")
+    return Response(theTEI, mimetype='text/xml')
 
 #############################################################
 #            PAGES CONCERNANT LES COMMENTAIRES              #
