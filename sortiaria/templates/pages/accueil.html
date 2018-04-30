@@ -4,8 +4,13 @@
 {%endblock%}
 {% block corps %}
 <h1>Bienvenue !</h1>
+
+<div>
+	<br/>
+	<p><strong>Sortiaria</strong> est un dictionnaire en ligne participatif spécialisé dans la terminologie du monde des sorcières et de la sorcellerie. Cette application a été développée en python par Marie-Laurence Bonhomme, Léa Frering, Armâne Magnier et Alyx Taounza-Jeminet dans le cadre du Master 2 Technologies numériques appliquées à l'histoire à l'École nationale des chartes.</p>
+</div>
     {% if mots %}
-    <p>{{mots|length}} derniers mots enregistrés :</p>
+    <p>Voici les {{mots|length}} derniers mots enregistrés :</p>
         <ul>
             {% for mot in mots %}
                 <li><a href="{{url_for('mot', mot_id=mot.mot_id)}}">{{mot.mot_terme}}</a></li>
