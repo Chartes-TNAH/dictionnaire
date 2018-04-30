@@ -4,13 +4,13 @@
 
 {% block corps %}
 
-<h1>Êtes-vous sûr·e de vouloir supprimer ce commentaire ?</h1>
+<br/><h1>Êtes-vous sûr·e de vouloir supprimer ce commentaire ?</h1>
 
 
 <div class="col-md container mt-3">
 		<div class="row">
 			<form class="col-3 mr-2 " method="POST" action="{{url_for('supprimer_commentaire', commentaire_id=commentaire.commentaire_id)}}">
-			    <button type="submit" class="btn btn-success btn-sm">Confirmer la suppression du commentaire</button>
+			    <button type="submit" class="btn btn-success btn-sm">Confirmer la suppression</button>
 				</form>
 				<form class="col-3 ml-2" method="GET" action="{{ url_for('accueil')}}">
 				<button type="submit" class="btn btn-danger btn-sm">Annuler</button>

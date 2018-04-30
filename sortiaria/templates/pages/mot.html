@@ -6,30 +6,28 @@
 
 {% block corps %}
     {% if mot %}
-    <br/>
-        <h1>{{mot.mot_terme}}</h1>
+        <br/><h1>{{mot.mot_terme}}</h1>
 	<p>{% if mot.mot_phon %}/{{mot.mot_phon}}/<br/>{% endif %}
-
-	{{mot.mot_gram}}
+	{% if mot.mot_gram %}{{mot.mot_gram}}<br/>{% endif %}
 	{% if mot.mot_genre %}
-		<br/>{{mot.mot_genre}}
+		{{mot.mot_genre}}<br/>
 	{% endif %}
         {% if mot.authorships %}
-<br/><b>auteur(s) : </b>
+<b>auteur(s) : </b>
             {% for auteur in m_auteurs %}
             {{auteur}}, 
             {% endfor %}
         {% else %}
-<br/><b>auteur : </b>admin
+<b>auteur : </b>admin
         {% endif %}
-</p>
+
         <dl>
-            <dt>Définition</dt><dd>{{mot.mot_def}}</dd>
+            <dt>Définition</dt><dd>{{mot.mot_def}}</dd></p>
         {% if mot.commentaires %}
-        <br/>
-	<h4>Commentaires</h4>
+        
+	<p><h4>> Commentaires</h4>
             {% for com in coms %}
-	<p><b>{{com.commentaire_titre}}</b>
+	<b>{{com.commentaire_titre}}</b>
 	<br/>{{com.commentaire_texte}}
 	        {% if com.commentaire_source %}
 	<br/><b>source : </b>{{com.commentaire_source}}
@@ -44,9 +42,9 @@
 {% else %}
 <br/><b>auteur : </b>admin
                  {% endif %}
-
+    {% if current_user.is_authenticated %}
     <div class="row"><a class="nav-link" href="{{url_for('modifier_commentaire', commentaire_id=com.commentaire_id)}}" data-toggle="tooltip" title="Modifer le commentaire"><button class="btn btn-sm btn-info" type="submit">Modifier</button></a>
-    <a class="nav-link" href="{{url_for('supprimer_commentaire', commentaire_id=com.commentaire_id)}}" data-toggle="tooltip" title="Supprimer le commentaire"><button class="btn btn-sm btn-danger" type="submit">X</button></a></div>
+    <a class="nav-link" href="{{url_for('supprimer_commentaire', commentaire_id=com.commentaire_id)}}" data-toggle="tooltip" title="Supprimer le commentaire"><button class="btn btn-sm btn-danger" type="submit">X</button></a></div>{% endif %}
 </p>
         {% endfor %}
     {% endif %}

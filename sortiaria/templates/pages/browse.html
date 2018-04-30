@@ -1,12 +1,12 @@
 {% extends "conteneur.html" %}
 
-{% block titre %}| Navigation : Page {{resultats.page}}{%endblock%}
+{% block titre %}| Index : Page {{resultats.page}}{%endblock%}
 
 {% block corps %}
 
-    <h1>Navigation</h1>
+    <br/><h1>Index</h1>
     {% if resultats %}
-        <p>Il y a {{resultats.total}} mots qui répondent à votre requête :</p>
+        <p>Il y a actuellement {{resultats.total}} mots dans le dictionnaire de Sortiaria :</p>
         <ul>
             {% for mot in resultats.items %}
                 <li><a href="{{url_for('mot', mot_id=mot.mot_id)}}">{{mot.mot_terme}}</a></li>

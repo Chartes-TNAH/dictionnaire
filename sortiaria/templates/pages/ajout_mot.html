@@ -5,7 +5,7 @@
 {% if current_user.is_authenticated %}
 {% block corps %}
 
-<h1>Ajouter une entrée</h1>
+<br/><h1>Ajouter une entrée</h1>
 <p>Complétez le formulaire et cliquez sur "Envoyer" pour entrer un nouveau mot.</p>
 <form class="form" method="POST" action="{{url_for('ajout_mot')}}">
      <div class="form-group row">
