@@ -19,7 +19,7 @@ from flask_login import login_user, current_user, logout_user
 @app.route("/", methods=["GET", "POST"])
 def accueil():
     """ Route permettant l'affichage d'une page accueil
-        :return: une liste des derniers mots enregistrés et ce dans l'ordre alphabétique
+        :return: une sélection aléatoire de 5 mots parmi les mots enregistrés, ou tous les mots enregistrés si il y en a moins de ou exactement 5
     """
     mots_base = Mot.query.order_by(Mot.mot_terme).all()
     mots = []
