@@ -1,5 +1,7 @@
 from flask import render_template, request, flash, redirect, send_file, Response
-from  sqlalchemy.sql.expression import func, select
+from sqlalchemy.sql.expression import select
+
+import random
 
 import xml.etree.ElementTree as ET
 
@@ -19,8 +21,15 @@ def accueil():
     """ Route permettant l'affichage d'une page accueil
         :return: une liste des derniers mots enregistrés et ce dans l'ordre alphabétique
     """
-    mots = Mot.query.order_by(func.rand(Mot.mot_terme)).limit(5).all()
-
+    mots_base = Mot.query.order_by(Mot.mot_terme).all()
+    mots = []
+    if len(mots_base) >= 5:
+        while len(mots) < 5:
+            mot_mot = random.choice(mots_base)
+            if mot_mot not in mots:
+                mots.append(mot_mot)
+    else:
+        mots=mots_base
     return render_template("pages/accueil.html", nom="Sortiaria", mots=mots)
 
 
