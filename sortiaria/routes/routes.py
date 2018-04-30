@@ -279,6 +279,9 @@ def recherche():
             titre=titre,
             keyword=motclef
         )
+    else:
+        flash("Veuillez écrire quelque chose", "danger") 
+        return redirect("/")   
 
 @app.route("/browse")
 def browse():
