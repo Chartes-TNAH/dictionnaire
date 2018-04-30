@@ -261,7 +261,7 @@ def recherche():
     else:
         page = 1
 
-    # On crée une liste vide de résultat (qui restera vide par défaut
+    # On crée une liste vide de résultats (qui restera vide par défaut
     #   si on n'a pas de mot clé)
     resultats = []
 
@@ -272,7 +272,7 @@ def recherche():
             Mot.mot_def.like("%{}%".format(motclef)))
         ).paginate(page=page, per_page=MOTS_PAR_PAGE)
         
-        titre = "Résultat pour la recherche `" + motclef + "`"
+        titre = "Résultat(s) pour la recherche `" + motclef + "`"
 
         return render_template(
             "pages/recherche.html",

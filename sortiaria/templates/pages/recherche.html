@@ -7,8 +7,8 @@
 
 {% block corps %}
 
-    <h1>{{titre}}</h1>
-    {% if resultats %}
+    <br/><h1>{{titre}}</h1>
+    {% if resultats[0] %}
         <p>Il y a {{resultats.total}} mot(s) qui répond(ent) à votre requête :</p>
         <ul>
             {% for mot in resultats.items %}
@@ -17,7 +17,7 @@
         </ul>
     <nav aria-label="research-pagination">
       <ul class="pagination">
-        {%- for page in resultats.iter_pages() %}
+        {% for page in resultats.iter_pages() %}
             {% if page %}
 
               {% if page != resultats.page %}
@@ -36,8 +36,10 @@
                 </li>
             {% endif %}
 
-        {%- endfor %}
+        {% endfor %}
       </ul>
     </nav>
+    {% else %}
+<p>Aucun résultat ne correspond à votre recherche. Voulez-vous <a href="{{url_for('ajout_mot')}}">créer une nouvelle entrée dans le dictionnaire</a> ?</p>
     {% endif %}
 {% endblock %}

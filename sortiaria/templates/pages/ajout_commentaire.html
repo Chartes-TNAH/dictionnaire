@@ -5,7 +5,7 @@
 {% if current_user.is_authenticated %}
 {% block corps %}
 
-<h1>Ajouter un commentaire</h1>
+<br/><h1>Ajouter un commentaire</h1>
 <p>Complétez le formulaire et cliquez sur "Envoyer" pour créer un commentaire.</p>
 <form class="form" method="POST" action="{{url_for('ajout_commentaire', mot_id=mot.mot_id)}}">
 <div class="form-group row">
